@@ -1,0 +1,31 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. ป้องกันการเข้าถึงโฟลเดอร์โดยตรง
+    Options -Indexes
+
+    # 2. จัดการ CORS (Optional: ถ้าใน PHP เขียนไว้แล้ว ส่วนนี้จะไม่ทำงานซ้ำซ้อน)
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+
+    # 3. Mapping รายชื่อไฟล์ Service ทั้งหมดของคุณ
+    
+    # Dashboard & Station Detail (พวกกราฟและตารางหลัก)
+    RewriteRule ^station_detail/(.*)$ station_detail.php [QSA,L]
+    RewriteRule ^dashboard/(.*)$ dashboard.php [QSA,L]
+    
+    # Manage Station (เปิด-ปิดสถานะเครื่อง)
+    RewriteRule ^ManageStation/(.*)$ ManageStation.php [QSA,L]
+    
+    # Station Detail Form & Equipment (หน้า Form และการดึงข้อมูลอุปกรณ์)
+    RewriteRule ^StationDetailForm/(.*)$ StationDetailForm.php [QSA,L]
+    
+    # Service อื่นๆ (ที่คุณยกตัวอย่างมา)
+    RewriteRule ^DetailCardStation/(.*)$ DetailCardStation.php [QSA,L]
+    RewriteRule ^history_file/(.*)$ history_file.php [QSA,L]
+    
+    # Login Service
+    RewriteRule ^LoginService/(.*)$ LoginService.php [QSA,L]
+
+</IfModule>

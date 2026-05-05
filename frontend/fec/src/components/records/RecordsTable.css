@@ -1,0 +1,161 @@
+
+
+/* Loading */
+.records-loading {
+  padding: 20px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Controls */
+.records-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.records-search {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  width: 260px;
+}
+
+.records-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.records-select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.records-button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.records-button.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.records-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Column Toggle */
+.records-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+/* TABLE CONTAINER (SCROLL AREA) */
+.records-table-container {
+  overflow: auto;
+}
+
+/* TABLE */
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ===== STICKY HEADER ===== */
+
+/* First header row */
+.records-table thead tr:first-child th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #ffffff; /* สำคัญมาก */
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Filter row */
+.records-table thead tr:nth-child(2) th {
+  position: sticky;
+  top: 48px; /* ปรับตามความสูง header แถวแรก */
+  z-index: 19;
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Header Cell */
+.records-table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.03);
+}
+
+/* Table Body */
+.records-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Zebra rows */
+.records-table tr.even {
+  background: #ffffff;
+}
+
+.records-table tr.odd {
+  background: #f9fafb;
+}
+
+/* Filter Input */
+.records-filter-input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+/* Link */
+.records-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.records-link:hover {
+  text-decoration: underline;
+}
+
+/* Pagination */
+.records-pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+/* STATUS BADGE */
+.status-badge {
+  min-width: 120px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.status-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}

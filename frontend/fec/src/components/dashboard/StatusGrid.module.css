@@ -1,0 +1,61 @@
+/* D:\Docker\mma\frontend\fec\src\components\dashboard\StatusGrid.module.css */
+
+.status-grid {
+  display: grid;
+  /* กำหนดให้มี 4 คอลัมน์เท่าๆ กัน */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 15px; /* เพิ่มระยะห่างนิดหน่อย */
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.status-card {
+  border-radius: 12px;
+  padding: 15px 10px; /* เพิ่ม padding ให้ดูไม่แน่น */
+  text-align: center;
+  color: white;
+  min-height: 100px; /* ปรับให้สูงขึ้นเล็กน้อย */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.status-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.status-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase; /* ทำให้ตัวอักษรใหญ่ดูเป็นหัวข้อ */
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.status-value {
+  font-size: 36px; /* ขยายขนาดตัวเลขให้เด่น */
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ปรับให้ยังดูดีใน Tablet (ถ้าจอกรอบเกินไปให้เหลือ 2) */
+@media (max-width: 992px) {
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile ให้เหลือ 1 หรือ 2 ตามความเหมาะสม */
+@media (max-width: 576px) {
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr); /* แนะนำ 2 สำหรับมือถือเพื่อให้ประหยัดที่ */
+  }
+}

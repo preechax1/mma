@@ -1,0 +1,122 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h3 { margin: 0; font-size: 18px; color: #1e293b; }
+
+.tabGroup {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+  color: #64748b;
+}
+
+.activeTab {
+  background: white;
+  color: #1e293b;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stationInfo {
+  background: #eff6ff;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label { font-size: 14px; font-weight: 700; color: #475569; }
+.dangerLabel { color: #ef4444 !important; }
+
+.inputGroup input, .inputGroup textarea {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+}
+
+.inputGroup textarea { height: 100px; resize: none; }
+
+.warningBox {
+  background: #fff7ed;
+  color: #c2410c;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #ffedd5;
+  margin-top: 10px;
+}
+
+.footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.footer button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelBtn { background: #f1f5f9; color: #475569; }
+.confirmBtn { background: #2563eb; color: white; }
+.confirmBtn:hover { background: #1d4ed8; }
+.dangerBtn { background: #ef4444; color: white; }
+.dangerBtn:hover { background: #dc2626; }

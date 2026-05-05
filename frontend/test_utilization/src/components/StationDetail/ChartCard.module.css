@@ -1,0 +1,53 @@
+.chartCard {
+  background: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  height: 100%; /* ให้ขยายเต็ม Wrapper ที่หุ้มอยู่ */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.chartCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+.header {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.chartTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.titleUnderline {
+  height: 3px;
+  width: 40px;
+  background: #3b82f6;
+  margin-top: 6px;
+  border-radius: 2px;
+}
+
+.chartContent {
+  flex: 1;
+  width: 100%;
+  min-height: 0; /* สำคัญ: เพื่อให้ Chart ปรับขนาดตาม Container ได้ถูกต้อง */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* กรณีที่ต้องการให้ Chart ขยายเต็มพื้นที่จริง ๆ */
+.chartContent > canvas {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}

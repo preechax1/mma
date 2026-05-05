@@ -1,0 +1,344 @@
+/* =========================================== */
+/* DASHBOARD MAIN LAYOUT */
+/* =========================================== */
+
+.dashboardContainer {
+  min-height: 100vh;
+  background: #0f172a; /* Base dark color */
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  padding: 32px;
+  color: #f1f5f9;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* =========================================== */
+/* HEADER SECTION - Glassmorphism style */
+/* =========================================== */
+
+.dashboardHeader {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 6px solid #3b82f6; /* MMA Blue accent */
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.headerIcon {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+}
+
+.dashboardTitle {
+  margin: 0 0 4px 0;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; 
+}
+
+.dashboardSubtitle {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* =========================================== */
+/* COMMON SECTION STYLES */
+/* =========================================== */
+
+.dashboardSection {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =========================================== */
+/* KEY METRICS SECTION (KPIs) */
+/* =========================================== */
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.metricCard {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.metricCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.metricIcon {
+  font-size: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metricContent {
+  flex: 1;
+}
+
+.metricValue {
+  font-size: 44px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1;
+}
+
+.metricLabel {
+  font-size: 15px;
+  color: #94a3b8;
+  margin: 6px 0 16px 0;
+  font-weight: 500;
+}
+
+.metricProgress {
+  width: 100%;
+  height: 8px;
+  background: #334155;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Specific Progress Bar Colors */
+.progressBarReady {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669); /* Green */
+  border-radius: 4px;
+  transition: width 1s ease-out;
+}
+
+.progressBarDown {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #dc2626); /* Red */
+  border-radius: 4px;
+  transition: width 1s ease-out;
+}
+
+/* Card Accent Colors (Top Border) */
+.totalCard { border-top: 4px solid #3b82f6; } /* Blue */
+.readinessCard { border-top: 4px solid #10b981; } /* Green */
+.maintenanceCard { border-top: 4px solid #ef4444; } /* Red */
+
+/* =========================================== */
+/* STATUS OVERVIEW GRID */
+/* =========================================== */
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.statusCard {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(5px);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.statusCard:hover {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.statusIcon { font-size: 22px; }
+
+.statusName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.statusValue {
+  font-size: 40px;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Status Specific Colored Glows on Hover */
+.statusCard:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; left: 10%; width: 80%; height: 20px;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.6;
+}
+
+/* Define Glow Colors */
+.statusReady:hover::after, .statusReady .statusValue { color: #10b981; }
+.statusNotReady:hover::after, .statusNotReady .statusValue { color: #ef4444; }
+.statusMaintenance:hover::after, .statusMaintenance .statusValue { color: #f59e0b; }
+.statusDown:hover::after, .statusDown .statusValue { color: #ef4444; }
+.statusRunning:hover::after, .statusRunning .statusValue { color: #3b82f6; }
+.statusIdle:hover::after, .statusIdle .statusValue { color: #8b5cf6; }
+.statusSetup:hover::after, .statusSetup .statusValue { color: #06b6d4; }
+
+/* =========================================== */
+/* CHARTS SECTION */
+/* =========================================== */
+
+.chartsGridPrimary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.chartsGridSecondary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+}
+
+.chartContainer {
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.chartTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =========================================== */
+/* LOADING & ERROR STATES */
+/* =========================================== */
+
+.loadingContainer, .errorContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+  color: #94a3b8;
+  gap: 16px;
+}
+
+.loadingSpinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #334155;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.retryButton {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.retryButton:hover {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+/* =========================================== */
+/* RESPONSIVE DESIGN */
+/* =========================================== */
+
+@media (max-width: 1024px) {
+  .chartsGridPrimary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer { padding: 20px; }
+  .dashboardHeader { padding: 24px; }
+  .dashboardTitle { font-size: 28px; }
+  .metricValue { font-size: 36px; }
+  .statusGrid { grid-template-columns: 1fr 1fr; }
+}

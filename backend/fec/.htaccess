@@ -1,0 +1,15 @@
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    Options -Indexes
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # 1. Dashboard
+    RewriteRule ^dashboard$ dashboard.php [L,QSA]
+    RewriteRule ^dashboard/(.*)$ dashboard.php [L,QSA]
+
+    
+    
+</IfModule>

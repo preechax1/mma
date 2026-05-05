@@ -1,0 +1,37 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    Options -Indexes
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # 1. Dashboard
+    RewriteRule ^dashboard$ dashboard.php [L,QSA]
+    RewriteRule ^dashboard/(.*)$ dashboard.php [L,QSA]
+
+    # 2. History
+    RewriteRule ^historytransaction$ historytransaction.php [L,QSA]
+    RewriteRule ^historytransaction/(.*)$ historytransaction.php [L,QSA]
+
+    # 3. Spares User & Admin (Specific routes first)
+    #RewriteRule ^spares_user$ spares_user.php [L,QSA]
+    #RewriteRule ^spares_user/(.*)$ spares_user.php [L,QSA]
+
+    #RewriteRule ^spares_admin$ spares_admin.php [L,QSA]
+    #RewriteRule ^spares_admin/(.*)$ spares_admin.php [L,QSA]
+
+    # 4. Spares General (Least specific route last)
+    RewriteRule ^stores$ stores.php [L,QSA]
+    RewriteRule ^stores/(.*)$ stores.php [L,QSA]
+
+    # 4. Spares General (Least specific route last)
+    RewriteRule ^withdrawal$ withdrawal.php [L,QSA]
+    RewriteRule ^withdrawal/(.*)$ withdrawal.php [L,QSA]
+
+    RewriteRule ^spares$ spares.php [L,QSA]
+    RewriteRule ^spares/(.*)$ spares.php [L,QSA]
+
+    RewriteRule ^login$ login.php [L,QSA]
+    RewriteRule ^login/(.*)$ login.php [L,QSA]
+    
+</IfModule>

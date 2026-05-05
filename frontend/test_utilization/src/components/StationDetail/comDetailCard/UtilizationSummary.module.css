@@ -1,0 +1,105 @@
+.utilCardFixed {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.utilHeaderFixed {
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 8px;
+}
+
+.utilTitleText {
+  margin: 0 0 6px 0 !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #1e293b !important;
+  text-transform: uppercase;
+}
+
+.utilDateBadge {
+  font-size: 11px !important;
+  color: #475569 !important;
+  background: #f1f5f9 !important;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+.utilBodyFixed {
+  display: flex;
+  flex-direction: column;
+}
+
+.utilMainValRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 6px;
+}
+
+.utilLabelText {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+}
+
+.utilPercentNumber {
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  line-height: 1;
+}
+
+.utilBarBg {
+  height: 12px;
+  background: #f1f5f9 !important;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.utilBarFill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.8s ease-in-out;
+}
+
+.utilGridFooter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.utilStatItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.utilStatItem label {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: #94a3b8 !important;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.utilStatVal {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+}
+
+.smallUnit {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 400;
+}

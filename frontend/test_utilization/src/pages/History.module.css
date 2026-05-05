@@ -1,0 +1,143 @@
+.historyContainer {
+  padding: 8px 0;
+  color: #f1f5f9;
+  max-width: 100%;
+}
+
+/* ================= HEADER ================= */
+
+.historyHeader {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.historyTitle {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.historySubtitle {
+  color: #94a3b8;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* ================= KPI CARDS ================= */
+
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.kpiCard {
+  background: rgba(30, 41, 59, 0.4);
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.kpiCard:hover {
+  transform: translateY(-5px);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.kpiTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+.kpiValue {
+  font-size: 36px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+/* Accent Colors */
+.blueCard { border-top: 4px solid #3b82f6; }
+.purpleCard { border-top: 4px solid #8b5cf6; }
+.redCard { border-top: 4px solid #ef4444; }
+.slateCard { border-top: 4px solid #64748b; }
+
+/* ================= CONTENT SECTIONS ================= */
+
+.filtersSection, .tableSection {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: #f1f5f9;
+}
+
+.resultsCount {
+  font-size: 13px;
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* ================= TABLE WRAPPER ================= */
+
+.tableWrapper {
+  background: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Scrollbar Customization */
+.tableWrapper::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+@media (max-width: 768px) {
+  .historyHeader { padding: 24px; }
+  .historyTitle { font-size: 24px; }
+  .kpiValue { font-size: 28px; }
+}

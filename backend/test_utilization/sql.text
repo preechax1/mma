@@ -1,0 +1,170 @@
+USE keysight;
+
+CREATE TABLE machine_status_current (
+    machine_current_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    station_id INT NOT NULL,
+    
+    machine_status VARCHAR(20),
+    
+    connect_status DATETIME,
+
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    update_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    update_by INT,
+    
+    CONSTRAINT fk_machine_station
+        FOREIGN KEY (station_id)
+        REFERENCES tbl_station(stationID),
+        
+    CONSTRAINT fk_machine_updateby
+        FOREIGN KEY (update_by)
+        REFERENCES tbl_member(memberID)
+);
+
+
+
+
+INSERT INTO machine_status_current
+(
+    station_id,
+    machine_status,
+    connect_status,
+    update_at
+)
+SELECT
+    id_station,
+    status,
+    connect_status,
+    last_update
+
+FROM rec_ut
+WHERE active_status = 1;
+
+
+
+
+
+
+
+
+
+*********************************************************************************************************************
+USE keysight;
+
+CREATE TABLE machine_status_history (
+    machine_history_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    station_id INT NOT NULL,
+    
+    machine_status VARCHAR(20),
+    
+    product VARCHAR(50),
+    
+    serial VARCHAR(50),
+    
+    equipment TEXT,
+    
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    update_by INT,
+    
+    CONSTRAINT fk_history_station
+        FOREIGN KEY (station_id)
+        REFERENCES tbl_station(stationID),
+        
+    CONSTRAINT fk_history_updateby
+        FOREIGN KEY (update_by)
+        REFERENCES tbl_member(memberID)
+);
+
+
+
+INSERT INTO machine_status_history
+(
+    station_id,
+    machine_status,
+    create_at
+)
+SELECT
+    id_station,
+    status,
+    last_update
+FROM rec_ut
+
+
+
+
+
+
+
+
+
+
+
+*********************************************************************************************************************
+USE keysight;
+
+CREATE TABLE machine_problem (
+    machine_problem_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    station_id INT NOT NULL,
+    
+    down_at DATETIME,
+    
+    up_at DATETIME,
+    
+    problem TEXT,
+    
+    cause_of_problem TEXT,
+    
+    corrective_action TEXT,
+    
+    failure_category TEXT,
+    
+    alert_by INT,
+    
+    verify_at DATETIME,
+    
+    verify_by INT,
+    
+    update_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_problem_station
+        FOREIGN KEY (station_id)
+        REFERENCES tbl_station(stationID),
+        
+    CONSTRAINT fk_problem_alertby
+        FOREIGN KEY (alert_by)
+        REFERENCES tbl_member(memberID),
+        
+    CONSTRAINT fk_problem_verifyby
+        FOREIGN KEY (verify_by)
+        REFERENCES tbl_member(memberID)
+);
+
+
+
+INSERT INTO machine_problem
+(
+    station_id,
+    down_at,
+    up_at,
+    problem,
+    cause_of_problem,
+    corrective_action,
+    failure_category
+)
+SELECT
+    id_station,
+    response_down,
+    response_up,
+    problem_found,
+    cause_of_problem,
+    corrective_action,
+    failure_category
+FROM rec_ut
+WHERE IFNULL(cause_of_problem,'') <> ''
+AND IFNULL(failure_category,'') <> '';

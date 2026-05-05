@@ -1,0 +1,131 @@
+html, body {
+  margin: 0;
+  padding: 0;
+
+}
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
+}
+
+
+
+.layout{
+  background:#0f172a;
+  color:white;
+  min-height:100vh;
+}
+
+/* =========================
+   TOP NAVBAR
+========================= */
+
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+
+  height:60px;
+  background:#111827;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:0 30px;
+
+  border-bottom:1px solid #1f2937;
+
+  z-index:1000;
+}
+
+.logo{
+  font-weight:bold;
+  font-size:18px;
+}
+
+.top-info{
+  display:flex;
+  gap:20px;
+}
+
+.alarm{
+  color:#ef4444;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  position:fixed;
+
+  top:60px;
+  left:0;
+
+  width:120px;
+  height:100%;
+
+  background:#1e293b;
+
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+
+  border-right:1px solid #334155;
+}
+
+.sidebar a{
+  text-decoration:none;
+  color:white;
+
+  background:#334155;
+  padding:10px 14px;
+
+  border-radius:6px;
+
+  transition:0.2s;
+}
+
+.sidebar a:hover{
+  background:#475569;
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.content{
+  margin-top:60px;
+  margin-left:150px;
+  padding:30px;
+  height:calc(100vh - 60px);
+  overflow-y:auto;   /* scroll อยู่ตรงนี้ */
+}
+
+.content{
+  scrollbar-width: thin;
+}
+
+.content::-webkit-scrollbar{
+  width:8px;
+}
+
+.content::-webkit-scrollbar-track{
+  background:#0f172a;
+}
+
+.content::-webkit-scrollbar-thumb{
+  background:#475569;
+  border-radius:10px;
+}

@@ -1,0 +1,110 @@
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  background: #0f172a;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left;
+}
+
+/* Header Styling */
+.historyTable thead tr {
+  background: #1e293b;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.historyTable th {
+  padding: 16px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+/* Row Styling */
+.historyTable tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.2s;
+}
+
+.historyTable tbody tr:hover {
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.historyTable td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  color: #cbd5e1;
+}
+
+/* Column Specifics */
+.idCol { color: #64748b; font-family: monospace; }
+.problemCol { font-weight: 500; color: #f1f5f9; min-width: 150px; }
+.engineerName { color: #94a3b8; font-size: 13px; }
+
+/* Station Button */
+.btnStation {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btnStation:hover {
+  background: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+/* Badge System */
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badgeCritical { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.badgeWarning { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.badgeNormal { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+
+/* Time & Duration */
+.timeCol { font-size: 12px; line-height: 1.4; color: #94a3b8; }
+.endTime { color: #64748b; }
+.durationValue {
+  font-weight: 700;
+  color: #f1f5f9;
+  background: #1e293b;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Text Wrapping */
+.causeText, .actionText {
+  font-size: 13px;
+  margin-bottom: 2px;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.causeText strong, .actionText strong { color: #475569; margin-right: 4px; }
+
+/* Empty State */
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: #64748b;
+  background: rgba(30, 41, 59, 0.2);
+}

@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    Options -Indexes
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # 1. login
+    RewriteRule ^login$ login.php [L,QSA]
+    RewriteRule ^login/(.*)$ login.php [L,QSA]
+
+    # 2. member
+    RewriteRule ^member$ member.php [L,QSA]
+    RewriteRule ^member/(.*)$ member.php [L,QSA]
+
+        
+</IfModule>

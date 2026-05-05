@@ -1,0 +1,66 @@
+/* =========================================== */
+/* MAIN STRUCTURE */
+/* =========================================== */
+
+.layout {
+  background: #0f172a;
+  color: #f1f5f9;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* ป้องกัน scroll ซ้อนที่ตัวนอกสุด */
+}
+
+.wrapper {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px); /* ลบความสูง Navbar ออก */
+  margin-top: 10px; /* เว้นที่ให้ Navbar fixed */
+}
+
+/* =========================================== */
+/* MAIN CONTENT AREA */
+/* =========================================== */
+
+.content {
+  flex: 1;
+  padding: 0px;
+  overflow-y: auto; /* ให้ scroll เฉพาะส่วนเนื้อหา */
+  background: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #0f172a;
+}
+
+/* Custom Scrollbar สำหรับ Chrome/Safari */
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+  border: 2px solid #0f172a;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* =========================================== */
+/* GLOBAL UTILITIES (ใช้ในกรณีจำเป็น) */
+/* =========================================== */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+}

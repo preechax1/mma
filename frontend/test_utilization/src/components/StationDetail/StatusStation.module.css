@@ -1,0 +1,65 @@
+/* Container สำหรับจัดเรียงกล่อง Heatmap */
+.heatmap {
+  display: grid;
+  /* ปรับขนาดกล่องขั้นต่ำ 80px และขยายตามพื้นที่ที่เหลือ */
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  background: #0f172a; /* Slate 50 */
+  border-radius: 12px;
+  border: 1px solid #0f172a;
+}
+
+/* กล่องสถานะแต่ละเครื่อง (Station Box) */
+.detailBox {
+  aspect-ratio: 3 / 1; /* บังคับให้เป็นสี่เหลี่ยมจัตุรัส */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  
+  /* ตัวหนังสือ */
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  word-break: break-all;
+  line-height: 1.2;
+  
+  /* เอฟเฟกต์ */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect: ให้กล่องลอยขึ้นและสว่างขึ้น */
+.detailBox:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+  z-index: 10;
+}
+
+/* Active State: ตอนกด */
+.detailBox:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* ตกแต่งตัวเลข/ชื่อ Station ให้เด่นขึ้น */
+.detailBox::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ปรับสีตัวหนังสือหากสีพื้นหลังสว่างเกินไป (Optional) */
+/* ถ้าสถานะเป็น 'Idle' หรือสีอ่อนๆ สามารถเพิ่ม logic ใน JS เพื่อเปลี่ยน class ได้ */

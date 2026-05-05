@@ -1,0 +1,164 @@
+/* Overlay พื้นหลังโปร่งแสงแบบเบลอ */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px); /* เพิ่มความหรูหราด้วยการเบลอพื้นหลัง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ตัวกล่อง Modal */
+.modal {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.modal h3 {
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.modal hr {
+    border: 0;
+    border-top: 1px solid #f3f4f6;
+    margin: 1.5rem 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.content p {
+    margin: 0;
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+.content strong {
+    color: #111827;
+    font-weight: 600;
+}
+
+/* ส่วนของฟอร์มเลือกสถานะ */
+.formGroup {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.formGroup select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    font-size: 1rem;
+    color: #111827;
+    transition: all 0.2s;
+    outline: none;
+    cursor: pointer;
+}
+
+.formGroup select:focus {
+    border-color: #3b82f6;
+    /* ลบบรรทัด ring ออก */
+    outline: none; /* ปิดเส้นขอบเดิมของ Browser */
+    background-color: #fff;
+    /* ใช้ box-shadow ทำหน้าที่เป็นวงแหวน (Ring) แทน */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); 
+}
+
+/* ส่วนของปุ่มกด */
+.actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.cancelBtn {
+    padding: 0.625rem 1.25rem;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.confirmBtn {
+    padding: 0.625rem 1.25rem;
+    background: #2563eb;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.confirmBtn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.confirmBtn:active {
+    transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading State Style */
+.loadingText {
+    text-align: center;
+    padding: 2rem;
+    color: #6b7280;
+    font-style: italic;
+}

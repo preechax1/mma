@@ -1,0 +1,82 @@
+services:
+  # Login Frontend
+  frontend_login:
+    image: node:20
+    container_name: mma_login_ui
+    working_dir: /app
+    volumes:
+      - ./frontend/login:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5176:5173"
+
+  # Frontend FEC
+  frontend_fec:
+    image: node:20
+    container_name: mma_fec_ui
+    working_dir: /app
+    volumes:
+      - ./frontend/fec:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+
+  # Frontend UTIL
+  frontend_util:
+    image: node:20
+    container_name: mma_util_ui
+    working_dir: /app
+    volumes:
+      - ./frontend/test_utilization:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5174:5173"
+
+  # Backend (PHP)
+  backend:
+    build: ./backend
+    container_name: mma_backend
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "8080:80"
+    command: apache2-foreground
+
+  # MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mma_mysql
+    restart: unless-stopped
+    command: --sql-mode="NO_ENGINE_SUBSTITUTION"
+    environment:
+      MYSQL_ROOT_PASSWORD: mma
+      MYSQL_DATABASE: keysight
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: mma_phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+
+volumes:
+  mysql_data:

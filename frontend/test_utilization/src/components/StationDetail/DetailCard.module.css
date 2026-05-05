@@ -1,0 +1,195 @@
+.stationModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.stationModal {
+  width: 1400px;
+  max-width: 95%;
+  max-height: 90vh;
+  background: #f8fafc; /* เปลี่ยนเป็นเทาอ่อนสไตล์ Industrial */
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.modalHeader {
+  padding: 20px 30px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.statusIndicator {
+  width: 12px;
+  height: 12px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.closeBtn {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 12px;
+  color: #64748b;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+  transform: rotate(90deg);
+}
+
+.modalContent {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Grid Layout */
+.gridRow {
+  display: grid;
+  gap: 20px;
+}
+
+.topRow {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+.infoGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.middleColumn, .rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bottomRow {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+/* Section Styling */
+.imageSection {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  height: 600px; /* ตามที่คุณกำหนดไว้ */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.cardWrapper {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.cardWrapper:hover {
+  border-color: #3b82f6;
+}
+
+/* Custom Scrollbar */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+  border: 2px solid #f1f5f9;
+}
+
+
+/* ไฟล์ CSS ของ Component ตัวแม่ */
+.cardGridContainer {
+  display: grid;
+  /* ปรับเป็น 2 หรือ 3 คอลัมน์ตามความเหมาะสมของหน้าจอ */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 16px;
+  align-items: stretch; /* สำคัญ: ทำให้ทุกตัวในแถวเดียวกันสูงเท่ากับตัวที่สูงที่สุด */
+}
+
+/* ตัวอย่างใน StatusCard.module.css และใบอื่นๆ */
+.statusCard, .readinessCard, .utilCardFixed, .pmCard {
+  width: 100%;
+  height: 100%; /* บังคับให้สูงเต็มช่อง Grid ที่แม่แบ่งไว้ */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* กัน Padding ดันขนาดพัง */
+}
+
+/* ส่วนเนื้อหาภายในให้ขยายเต็มพื้นที่ (เผื่อบางอันเนื้อหาน้อย) */
+.statusBody, .pmBody {
+  flex: 1; 
+}
+
+
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .topRow, .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .infoGroup {
+    grid-template-columns: 1fr;
+  }
+  .stationModal {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}
+

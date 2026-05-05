@@ -1,0 +1,110 @@
+/* src/layout/Navbar.module.css */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px; /* เพิ่มพื้นที่ข้าง */
+  height: 65px; /* สูงขึ้นเล็กน้อยเพื่อให้ดูโปร่ง */
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0; /* เส้นคั่นบางๆ สีเทาอ่อน */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700; /* หนาขึ้น */
+  color: #1e293b;
+  letter-spacing: -1px; /* กระชับตัวอักษร */
+}
+
+.mmaSpan {
+  color: #3b82f6; /* สีฟ้า MMA */
+  margin-right: 5px;
+}
+
+.topInfo {
+  display: flex;
+  align-items: center;
+  gap: 25px; /* เว้นระยะห่างแต่ละไอเทม */
+}
+
+/* สไตล์พื้นฐานของ Info Item */
+.infoItem {
+  font-size: 14px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  background-color: #eff6ff; /* สีฟ้าอ่อนมากๆ */
+  color: #2563eb; /* ตัวอักษรฟ้าเข้ม */
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.alarm {
+  color: #ef4444; /* สีแดง */
+  font-weight: 700;
+}
+
+/* ส่วนแสดงข้อมูล User */
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-left: 2px solid #f1f5f9;
+  padding-left: 25px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: right; /* ชิดขวา */
+  line-height: 1.3;
+}
+
+.userName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.userPos {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ปุ่ม Logout สไตล์ Modern */
+.logoutBtn {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1.5px solid #e2e8f0;
+  color: #64748b;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.logoutBtn:hover {
+  background-color: #ef4444; /* พื้นแดงตอน hover */
+  color: white;
+  border-color: #ef4444;
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+}
+
+.logoutBtn:active {
+  transform: translateY(1px);
+}

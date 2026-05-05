@@ -1,0 +1,103 @@
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.inputGroup {
+  flex: 1;
+  min-width: 180px;
+}
+
+.dateGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 320px;
+}
+
+.toText {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Base Styles for Inputs and Selects */
+.inputField, .selectField {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #f1f5f9;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.inputField:focus, .selectField:focus {
+  border-color: #3b82f6;
+  background: #0f172a;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.inputField::placeholder {
+  color: #64748b;
+}
+
+/* Actions Group */
+.actionGroup {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.btnClear {
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btnClear:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.btnExport {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transition: all 0.2s;
+}
+
+.btnExport:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+}
+
+/* Responsive สำหรับหน้าจอเล็ก */
+@media (max-width: 1200px) {
+  .actionGroup {
+    width: 100%;
+    margin-left: 0;
+  }
+  .btnExport, .btnClear {
+    flex: 1;
+  }
+}

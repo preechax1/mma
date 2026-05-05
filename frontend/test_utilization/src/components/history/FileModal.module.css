@@ -1,0 +1,346 @@
+/* ================= GLOBAL RESET ใน Modal ================= */
+.modalOverlay, .modalOverlay * {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* ฟอนต์มาตรฐานสวยๆ */
+}
+
+/* ================= OVERLAY ================= */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85); /* Slate 900 เข้มข้น */
+  backdrop-filter: blur(6px); /* เบลอหลังนุ่มนวล */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ================= MODAL BOX ================= */
+.modalBox {
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 24px; /* มุมโค้งมน */
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(40px) scale(0.96); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ================= HEADER ================= */
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modalTitleGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a; /* Slate 900 */
+  letter-spacing: -0.5px;
+}
+
+.modalSubtitle {
+  font-size: 14px;
+  color: #64748b; /* Slate 500 */
+  font-weight: 600;
+}
+
+.modalCloseBtn {
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalCloseBtn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+  transform: rotate(90deg);
+}
+
+/* ================= TOP ACTIONS (New Upload Button style) ================= */
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.uploadBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #4f46e5; /* Indigo 600 */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.uploadBtn:hover {
+  background: #4338ca; /* Indigo 700 */
+  transform: translateY(-1px);
+}
+
+.uploadBtn input { display: none; }
+.uploadIcon { font-size: 16px; }
+
+.uploadHint {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ================= FILE GRID & CARD ================= */
+.fileContentArea {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 12px; /* กัน scrollbar ทับ */
+}
+
+/* ปรับแต่ง Scrollbar สวยๆ */
+.fileContentArea::-webkit-scrollbar {
+  width: 6px;
+}
+.fileContentArea::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+.fileContentArea::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.fileContentArea::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.fileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* ปรับขนาด card เล็กน้อย */
+  gap: 20px;
+}
+
+.fileCardV2 {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.fileCardV2:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+  border-color: #6366f1; /* สี Indigo เมื่อ hover */
+}
+
+.filePreview {
+  position: relative;
+  height: 120px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in; /* เปลี่ยน cursor ถ้าเป็นรูป */
+}
+
+.fileThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.fileCardV2:hover .fileThumb {
+  transform: scale(1.05); /* Zoom รูปเล็กน้อย */
+}
+
+.fileIconBox {
+  font-size: 12px;
+  font-weight: 900;
+  color: white;
+  background: #94a3b8; /* สี gray พื้นฐาน */
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+/* ปรับสี Icon ตามประเภทไฟล์ (ตัวอย่าง) */
+.fileCardV2[data-ext="pdf"] .fileIconBox { background: #ef4444; }
+.fileCardV2[data-ext="zip"] .fileIconBox { background: #eab308; }
+.fileCardV2[data-ext="docx"] .fileIconBox { background: #3b82f6; }
+
+.btnDelFile {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(239, 68, 68, 0.85); /* Red 500 */
+  color: white;
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  opacity: 0;
+  transition: all 0.2s;
+  backdrop-filter: blur(2px);
+  z-index: 2;
+}
+
+.fileCardV2:hover .btnDelFile {
+  opacity: 1;
+}
+
+.btnDelFile:hover {
+  background: #ef4444;
+  transform: scale(1.1);
+}
+
+.fileInfo {
+  padding: 12px;
+  background: #fff;
+  z-index: 1;
+  position: relative;
+}
+
+.fileLink {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.fileLink:hover {
+  color: #4f46e5;
+}
+
+/* ================= STATES ================= */
+.loadingState, .emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.emptyIcon { font-size: 40px; }
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.uploading {
+  background: #94a3b8 !important;
+  cursor: not-allowed !important;
+}
+
+/* ================= FULLSCREEN VIEWER ================= */
+.viewerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  cursor: zoom-out;
+  animation: fadeIn 0.2s;
+}
+
+.viewerOverlay img {
+  max-width: 95%;
+  max-height: 95%;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  object-fit: contain;
+}
+
+.viewerClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.viewerInfo {
+  position: absolute;
+  bottom: 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}

@@ -1,0 +1,68 @@
+.tableWrapper {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table th {
+    background: #fafafa;
+    padding: 16px;
+    color: #444;
+    font-weight: 600;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.table td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.stationName { font-weight: 600; color: #2f3640; }
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.bgOn { background: #e3fcef; color: #00b894; }
+.bgEol { background: #ffeaa7; color: #d63031; }
+
+.statusGroup { display: flex; align-items: center; gap: 10px; }
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dotRun { background: #2ecc71; box-shadow: 0 0 6px #2ecc71; }
+.dotIdle { background: #f1c40f; }
+.dotOffline { background: #95a5a6; }
+.dotDefault { background: #dcdde1; }
+
+.manageBtn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.manageBtn:hover { background: #2980b9; }
+
+.noData {
+    text-align: center;
+    padding: 3rem !important;
+    color: #999;
+}
