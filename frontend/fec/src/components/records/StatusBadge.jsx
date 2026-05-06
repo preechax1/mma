@@ -1,24 +1,12 @@
-import { COLORS } from "../../constants/colors";
-
-function hexToRGBA(hex, opacity) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-}
+import styles from "./Record.module.css";
 
 export default function StatusBadge({ status }) {
-  const color = COLORS[status?.trim()] || "#9ca3af";
+  // Convert status to class name (e.g., "Pass" -> "statusPass")
+  const statusClass = `status${status?.trim().replace(/\s+/g, '')}` || "status-default";
+  const className = styles[statusClass] || styles["status-badge"];
 
   return (
-    <div
-      className="status-badge"
-      style={{
-        backgroundColor: hexToRGBA(color, 0.15),
-        color: color,
-        border: `1px solid ${hexToRGBA(color, 0.4)}`
-      }}
-    >
+    <div className={`${styles["status-badge"]} ${className}`}>
       {status}
     </div>
   );

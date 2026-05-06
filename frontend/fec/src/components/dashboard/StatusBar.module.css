@@ -1,0 +1,19 @@
+/* กำหนดตัวแปรสีไว้ที่ระดับ container หรือ :local */
+.chart-container {
+  --color-good: #10b981;
+  --color-fail: #ef4444;
+  --color-keep-on-store: #f59e0b;
+  --color-repair: #3b82f6;
+  --color-default: #6b7280;
+}
+
+.chart-card {
+  background: #1e293b;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.chart-card h2 {
+  color: #fff;
+  margin-bottom: 1rem;
+}

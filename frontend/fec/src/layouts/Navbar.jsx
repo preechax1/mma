@@ -45,7 +45,10 @@ export default function Navbar() {
         <div className={styles.userSection}>
           <div className={styles.userInfo}>
             <span className={styles.userName}>
-              {user?.displayName || user?.member || user?.username || "Unknown User"}
+              {user?.displayName ||
+                user?.member ||
+                user?.username ||
+                "Unknown User"}
             </span>
             <span className={styles.userPos}>{user?.position || "Guest"}</span>
           </div>

@@ -12,7 +12,15 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/records" element={<Records />} />
+
+          <Route path="/record/records" element={<Records />} /> 
+          <Route path="/record/recordsn/:serial" element={<Records />} />
+          <Route path="/record/recordid/:id" element={<Records />} />
+
+
+
+
+
           <Route path="/detail" element={<Records />} />
           <Route path="/history" element={<Records />} />
           <Route path="/manage" element={<UpdateForm />} />

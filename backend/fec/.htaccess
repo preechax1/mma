@@ -10,6 +10,9 @@
     RewriteRule ^dashboard$ dashboard.php [L,QSA]
     RewriteRule ^dashboard/(.*)$ dashboard.php [L,QSA]
 
+    RewriteRule ^record$ record.php [L,QSA]
+    RewriteRule ^record/(.*)$ record.php [L,QSA]
+
     
     
 </IfModule>
