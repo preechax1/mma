@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css"; // Import CSS Module
 
@@ -17,6 +17,7 @@ export default function Navbar() {
       position: params.get("position") || "",
       username: params.get("username") || "",
       displayName: params.get("displayName") || params.get("member") || "",
+      loginTimestamp: Date.now(), // บันทึกเวลาที่ login
     };
     localStorage.setItem("user", JSON.stringify(payload));
     return payload;
@@ -25,12 +26,44 @@ export default function Navbar() {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : getUserFromQuery();
 
-  const handleLogout = () => {
-    if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+  const handleLogout = (isAuto = false) => {
+    if (isAuto || window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
       localStorage.removeItem("user");
       window.location.href = "http://localhost:5175/?logout=1";
     }
   };
+
+  useEffect(() => {
+    const checkLoginTimeout = () => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        try {
+          const userData = JSON.parse(storedUser);
+          const loginTime = userData.loginTimestamp;
+          
+          if (loginTime) {
+            const now = Date.now();
+            const threeHours = 3 * 60 * 60 * 1000;
+
+            if (now - loginTime > threeHours) {
+              alert("เซสชันหมดอายุ (เกิน 3 ชั่วโมง) กรุณาเข้าสู่ระบบใหม่");
+              handleLogout(true);
+            }
+          } else {
+            // ถ้าไม่มี timestamp ให้ใส่ตัวปัจจุบัน (สำหรับคนที่ login ค้างไว้ก่อนหน้านี้)
+            userData.loginTimestamp = Date.now();
+            localStorage.setItem("user", JSON.stringify(userData));
+          }
+        } catch (e) {
+          console.error("Error parsing user data for timeout check", e);
+        }
+      }
+    };
+
+    checkLoginTimeout();
+    const interval = setInterval(checkLoginTimeout, 60000); // ตรวจสอบทุก 1 นาที
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <nav className={styles.topbar}>

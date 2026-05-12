@@ -1,7 +1,5 @@
+import styles from "./InputGrid.module.css";
+
 export default function InputGrid({ children }) {
-  return (
-    <div className="grid md:grid-cols-4 gap-6">
-      {children}
-    </div>
-  );
+  return <div className={styles.grid}>{children}</div>;
 }

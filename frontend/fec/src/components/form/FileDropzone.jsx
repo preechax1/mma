@@ -1,60 +1,73 @@
 import { useRef } from "react";
+import styles from "./FileDropzone.module.css";
 
-export default function FileDropzone({ 
-  onUpload, 
+export default function FileDropzone({
+  onUpload,
   multiple = false,
-  uploadMsg   // ✅ รับค่าจาก parent
+  uploadMsg, // ✅ รับค่าจาก parent
 }) {
+  const fileInputRef = useRef(null);
 
-  const inputRef = useRef();
+  const handleClick = () => fileInputRef.current?.click();
 
-  const handleFiles = (files) => {
-    if (!files || files.length === 0) return;
-
-    if (multiple) {
-      Array.from(files).forEach(file => onUpload && onUpload(file));
-    } else {
-      onUpload && onUpload(files[0]);
+  const handleFileChange = (e) => {
+    if (e.target.files?.length > 0) {
+      onUpload(e.target.files);
     }
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    handleFiles(e.dataTransfer.files);
-  };
+  const isError = uploadMsg?.toLowerCase().includes("error");
 
   return (
-    <div>
-
-      <div
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDrop}
-        onClick={() => inputRef.current.click()}
-        className="border-2 border-dashed border-gray-300 hover:border-blue-500 transition rounded-xl p-4 text-center cursor-pointer bg-gray-50"
-      >
+    <div className={styles.dropzoneContainer}>
+      <div className={styles.dropzone} onClick={handleClick}>
         <input
+          ref={fileInputRef}
           type="file"
-          ref={inputRef}
           multiple={multiple}
-          className="hidden"
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={handleFileChange}
+          className={styles.fileInput}
         />
 
-        <p className="text-gray-600 font-medium">
-          Drag & Drop file here
-        </p>
-        <p className="text-sm text-gray-400 mt-2">
-          or click to select file
-        </p>
+        <div className={styles.contentWrapper}>
+          <div className={styles.iconWrapper}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+              />
+            </svg>
+          </div>
+
+          <div className={styles.textGroup}>
+            <p className={styles.mainText}>Drag & Drop file here</p>
+            <p className={styles.subText}>or click to browse from your computer</p>
+          </div>
+        </div>
+
+        {/* Decorative background element */}
+        <div className={styles.decorativeCircle}></div>
       </div>
 
       {/* ✅ แสดงผลตรงนี้ */}
       {uploadMsg && (
-        <div className="text-green-600 font-medium mt-2">
+        <div
+          className={`${styles.message} ${isError ? styles.error : styles.success}`}
+        >
+          <div
+            className={`${styles.dot} ${isError ? styles.errorDot : styles.successDot}`}
+          ></div>
           {uploadMsg}
         </div>
       )}
-
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 
-import StatusTab    from "../components/dashboard/StatusTab";
-import StatusBar    from "../components/dashboard/StatusBar";
-import StatusGroup  from "../components/dashboard/StatusGroup";
+import StatusTab from "../components/dashboard/StatusTab";
+import StatusBar from "../components/dashboard/StatusBar";
+import StatusGroup from "../components/dashboard/StatusGroup";
 
 import { getStatusFec, getStatusGroupFec } from "../services/dashboardService";
 
-import "./Dashboard.dodule.css";
+import "./Dashboard.module.css";
 
 export default function Dashboard() {
   console.log("Dashboard component mounted");
@@ -43,8 +43,6 @@ export default function Dashboard() {
       }, {}),
     [statusGroup],
   );
-
- 
 
   // Load API
   const loadStatus = useCallback(async (isSilent = false) => {
@@ -96,7 +94,6 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-
       {error && <div className="error-banner">{error}</div>}
 
       {!error && (

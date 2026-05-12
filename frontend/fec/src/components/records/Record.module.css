@@ -1,192 +1,233 @@
-
-
-/* Loading */
-.records-loading {
-  padding: 20px;
-  font-weight: 600;
-  color: #374151;
+.tableContainer {
+  background: white;
+  border-radius: 16px;
+  /* ปรับลดความมนให้ดูทันสมัยแบบ Enterprise */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 180px);
+  /* เพิ่มความสูงตารางให้ใช้พื้นที่คุ้มขึ้น */
+  animation: slideUp 0.5s ease-out;
 }
 
-/* Controls */
-.records-controls {
+.actionBar {
+  padding: 1rem 1.5rem;
+  /* ลด padding เพื่อประหยัดพื้นที่แนวตั้ง */
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  align-items: center;
+  gap: 1rem;
 }
 
-.records-search {
-  padding: 10px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  width: 260px;
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
 }
 
-.records-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.records-select {
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-}
-
-.records-button {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  background: #e5e7eb;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.records-button.primary {
-  background: #2563eb;
-  color: white;
-}
-
-.records-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Column Toggle */
-.records-columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
-  font-size: 13px;
-}
-
-/* TABLE CONTAINER (SCROLL AREA) */
-.records-table-container {
-  overflow: auto;
-}
-
-/* TABLE */
-.records-table {
+.searchInput {
   width: 100%;
-  border-collapse: collapse;
+  padding: 0.625rem 1rem 0.625rem 2.75rem;
+  background: #f8fafc;
+  /* พื้นหลังเทาอ่อนเพื่อให้ input เด่นน้อยกว่าตาราง */
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #1e293b;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===== STICKY HEADER ===== */
+.searchInput:focus {
+  outline: none;
+  background: white;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
 
-/* First header row */
-.records-table thead tr:first-child th {
+.searchIcon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.exportBtn {
+  background: white;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  padding: 0.625rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exportBtn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #4f46e5;
+}
+
+.tableWrapper {
+  flex: 1;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* สำหรับ Firefox */
+}
+
+/* ตกแต่ง Scrollbar สำหรับ Chrome/Safari */
+.tableWrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.thead {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: #ffffff; /* สำคัญมาก */
-  border-bottom: 2px solid #e5e7eb;
+  background: #f8fafc;
 }
 
-/* Filter row */
-.records-table thead tr:nth-child(2) th {
-  position: sticky;
-  top: 48px; /* ปรับตามความสูง header แถวแรก */
-  z-index: 19;
-  background: #f9fafb;
-  border-bottom: 2px solid #e5e7eb;
+.th {
+  padding: 0.875rem 1.5rem;
+  /* ลดความสูง header */
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
 }
 
-/* Header Cell */
-.records-table th {
-  padding: 12px;
-  text-align: left;
-  font-weight: 600;
+.thSort {
   cursor: pointer;
-  box-shadow: 0 2px 2px rgba(0,0,0,0.03);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.15s;
 }
 
-/* Table Body */
-.records-table td {
-  padding: 12px;
+.thSort:hover {
+  color: #4f46e5;
+}
+
+.tr {
+  transition: background-color 0.15s;
+}
+
+.tr:hover {
+  background-color: #f1f5f9 !important;
+  /* เปลี่ยนสี hover ให้เข้มขึ้นนิดหน่อย */
+}
+
+.td {
+  padding: 0.75rem 1.5rem;
+  /* ปรับขนาดบรรทัดให้ไม่ห่างเกินไป */
+  font-size: 0.9rem;
+  color: #334155;
   border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
 }
 
-/* Zebra rows */
-.records-table tr.even {
-  background: #ffffff;
-}
-
-.records-table tr.odd {
-  background: #f9fafb;
-}
-
-/* Filter Input */
-.records-filter-input {
-  width: 100%;
-  padding: 6px;
-  border: 1px solid #d1d5db;
+.serialLink {
+  color: #0284c7;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: #f0f9ff;
+  padding: 0.2rem 0.5rem;
   border-radius: 6px;
 }
 
-/* Link */
-.records-link {
-  color: #2563eb;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.records-link:hover {
-  text-decoration: underline;
-}
-
-/* Pagination */
-.records-pagination {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-}
-
-/* STATUS BADGE */
-.status-badge {
-  min-width: 120px;
-  height: 32px;
-  display: flex;
+/* --- Status Badges (ดูคลีนและอ่านง่ายขึ้น) --- */
+.statusBadge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: 0.2s ease;
+  min-width: 90px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  /* เปลี่ยนจากวงรีเป็นสี่เหลี่ยมมนดูโปรกว่า */
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
 }
 
-.status-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* Status-specific styles */
-.statusPass {
-  background-color: rgba(34, 197, 94, 0.15);
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.4);
+.statusGood {
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
 .statusFail {
-  background-color: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
 
-.statusPending {
-  background-color: rgba(59, 130, 246, 0.15);
-  color: #3b82f6;
-  border: 1px solid rgba(59, 130, 246, 0.4);
+.statusRework {
+  background-color: #fef3c7;
+  color: #b45309;
 }
 
-.statusWarning {
-  background-color: rgba(245, 158, 11, 0.15);
-  color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.4);
+.statusShipOut {
+  background-color: #e0f2fe;
+  color: #0369a1;
 }
 
-.statusDefault {
-  background-color: rgba(156, 163, 175, 0.15);
-  color: #9ca3af;
-  border: 1px solid rgba(156, 163, 175, 0.4);
+.statusReceive {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.btnData {
+  background: white;
+  color: #4f46e5;
+  border: 1px solid #e2e8f0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnData:hover {
+  background: #4f46e5;
+  color: white;
+  border-color: #4f46e5;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

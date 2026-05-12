@@ -13,6 +13,9 @@
     RewriteRule ^record$ record.php [L,QSA]
     RewriteRule ^record/(.*)$ record.php [L,QSA]
 
+    RewriteRule ^updateform$ updateform.php [L,QSA]
+    RewriteRule ^updateform/(.*)$ updateform.php [L,QSA]
+
     
     
 </IfModule>

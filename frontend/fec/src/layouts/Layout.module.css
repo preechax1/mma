@@ -3,19 +3,22 @@
 /* =========================================== */
 
 .layout {
-  background: #0f172a;
-  color: #f1f5f9;
-  height: 100vh;
+  background: linear-gradient(180deg, #090e1f 0%, #111827 100%);
+  color: #f8fafc;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* ป้องกัน scroll ซ้อนที่ตัวนอกสุด */
+  overflow: hidden;
 }
 
 .wrapper {
   display: flex;
   flex: 1;
-  height: calc(100vh - 60px); /* ลบความสูง Navbar ออก */
-  margin-top: 10px; /* เว้นที่ให้ Navbar fixed */
+  min-height: calc(100vh - 68px);
+  margin-top: 10px;
+  gap: 18px;
+  padding: 0 18px 18px;
+  box-sizing: border-box;
 }
 
 /* =========================================== */
@@ -24,30 +27,60 @@
 
 .content {
   flex: 1;
-  padding: 0px;
-  overflow-y: auto; /* ให้ scroll เฉพาะส่วนเนื้อหา */
-  background: transparent;
+  min-width: 0;
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: 26px;
+  padding: 24px;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  backdrop-filter: blur(10px);
   scrollbar-width: thin;
-  scrollbar-color: #475569 #0f172a;
+  scrollbar-color: #94a3b8 #0f172a;
 }
 
 /* Custom Scrollbar สำหรับ Chrome/Safari */
 .content::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 .content::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: rgba(15, 23, 42, 0.6);
 }
 
 .content::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 10px;
-  border: 2px solid #0f172a;
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .content::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: rgba(148, 163, 184, 0.75);
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    flex-direction: column;
+    min-height: auto;
+    margin-top: 0;
+    padding: 0 14px 14px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 0 10px 10px;
+  }
+
+  .content {
+    padding: 16px;
+    border-radius: 20px;
+  }
 }
 
 /* =========================================== */

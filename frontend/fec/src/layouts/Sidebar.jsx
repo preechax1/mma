@@ -6,8 +6,7 @@ export default function Sidebar() {
   const menuItems = [
     { name: "Dashboard", path: "/", icon: "📊" },
     { name: "FEC Record", path: "/record/records", icon: "⚙️" },
-    { name: "FEC History", path: "/records?history=1", icon: "📜" },
-    { name: "FEC Manage", path: "/updateform", icon: "🚨" },
+    { name: "FEC Update", path: "/updateform", icon: "🚨" },
   ];
 
   return (

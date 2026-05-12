@@ -1,10 +1,13 @@
+import styles from "./FormCard.module.css";
+
 export default function FormCard({ title, children }) {
   return (
-    <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
-      <h2 className="text-xl font-semibold border-b pb-2">
-        {title}
-      </h2>
-      {children}
+    <div className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.indicator}></div>
+        <h2 className={styles.title}>{title}</h2>
+      </div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }

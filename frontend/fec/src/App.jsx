@@ -17,10 +17,6 @@ export default function App() {
           <Route path="/record/recordsn/:serial" element={<Records />} />
           <Route path="/record/recordid/:id" element={<Records />} />
 
-
-
-
-
           <Route path="/detail" element={<Records />} />
           <Route path="/history" element={<Records />} />
           <Route path="/manage" element={<UpdateForm />} />

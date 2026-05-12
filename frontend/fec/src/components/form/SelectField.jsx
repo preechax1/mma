@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import styles from "./SelectField.module.css";
 
 export default function SelectField({
   label,
@@ -7,9 +8,8 @@ export default function SelectField({
   options = [],
   textKey,
   onChange,
-  disabled
+  disabled,
 }) {
-
   // 🔥 ถ้า value ว่าง → เลือกตัวแรกอัตโนมัติ
   useEffect(() => {
     if ((!value || value === "") && options.length > 0) {
@@ -19,25 +19,23 @@ export default function SelectField({
         onChange({
           target: {
             name,
-            value: firstOption.id
-          }
+            value: firstOption.id,
+          },
         });
       }
     }
   }, [options]);
 
   return (
-    <div>
-      <label className="block text-sm font-medium mb-1">
-        {label}
-      </label>
+    <div className={styles.fieldWrapper}>
+      <label className={styles.label}>{label}</label>
 
       <select
         name={name}
         value={value || (options[0]?.id ?? "")}
         onChange={onChange}
         disabled={disabled}
-        className="w-full border bg-white text-gray-800 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none disabled:bg-gray-100"
+        className={styles.select}
       >
         {options.map((item, index) => (
           <option key={index} value={item.id}>

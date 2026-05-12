@@ -3,8 +3,13 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 date_default_timezone_set("Asia/Bangkok");
 
-$base_dir = "D:/Storage_MMA_TE/WebAppData/DataFile/fec/";
-$web_base = "/web_upload/fec/";
+// ✅ ปรับให้เป็น path สัมพัทธ์สำหรับ Docker
+$base_dir = __DIR__ . "/../uploads/fec/";
+
+// ✅ สร้าง Full URL สำหรับให้ Frontend (คนละ Port) แสดงรูปได้
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+$web_base = $protocol . "://" . $host . "/uploads/fec/";
 
 $function = $_REQUEST['function'] ?? '';
 
