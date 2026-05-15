@@ -5,31 +5,16 @@ import styles from "./Navbar.module.css"; // Import CSS Module
 export default function Navbar() {
   const navigate = useNavigate();
 
-  // ดึงข้อมูล User จาก LocalStorage (ที่เซ็ตมาจากหน้า Login)
-  const getUserFromQuery = () => {
-    const params = new URLSearchParams(window.location.search);
-    const memberID = params.get("memberID");
-    if (!memberID) return null;
-
-    const payload = {
-      memberID,
-      member: params.get("member") || "",
-      position: params.get("position") || "",
-      username: params.get("username") || "",
-      displayName: params.get("displayName") || params.get("member") || "",
-      loginTimestamp: Date.now(), // บันทึกเวลาที่ login
-    };
-    localStorage.setItem("user", JSON.stringify(payload));
-    return payload;
-  };
-
+  // ดึงข้อมูล User จาก LocalStorage ที่ Layout เซ็ตไว้ให้แล้ว
   const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : getUserFromQuery();
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   const handleLogout = (isAuto = false) => {
     if (isAuto || window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
       localStorage.removeItem("user");
-      window.location.href = "http://localhost:5175/?logout=1";
+      // Redirect to central login with a return URL
+      const currentUrl = window.location.origin + window.location.pathname;
+      window.location.href = `http://localhost:5175/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
     }
   };
 
@@ -43,10 +28,10 @@ export default function Navbar() {
           
           if (loginTime) {
             const now = Date.now();
-            const threeHours = 3 * 60 * 60 * 1000;
+            const ONE_HOUR = 60 * 60 * 1000;
 
-            if (now - loginTime > threeHours) {
-              alert("เซสชันหมดอายุ (เกิน 3 ชั่วโมง) กรุณาเข้าสู่ระบบใหม่");
+            if (now - loginTime > ONE_HOUR) {
+              alert("เซสชันหมดอายุ (เกิน 1 ชั่วโมง) กรุณาเข้าสู่ระบบใหม่");
               handleLogout(true);
             }
           } else {

@@ -8,33 +8,48 @@ export default function App() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect");
+
     if (params.get("logout") === "1") {
       localStorage.removeItem("user");
       setUser(null);
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
-      return;
+    } else if (user && user.token && redirect) {
+      // ส่งกลับไปแอปอื่นพร้อม Token เท่านั้น
+      const url = new URL(redirect);
+      url.searchParams.set("token", user.token);
+      window.location.href = url.toString();
     }
-
-    console.log("App mounted, current path:", window.location.pathname, "user item:", localStorage.getItem("user"));
-    const userData = localStorage.getItem("user");
-    if (userData && userData !== "undefined") {
-      try {
-        setUser(JSON.parse(userData));
-      } catch (e) {
-        console.error("Error parsing user data:", e);
-        localStorage.removeItem("user");
-      }
-    }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    const handleStorageChange = () => {
+    const checkSession = () => {
       const userData = localStorage.getItem("user");
       if (userData && userData !== "undefined") {
         try {
-          setUser(JSON.parse(userData));
+          const userObj = JSON.parse(userData);
+          
+          // ถ้าเป็นข้อมูลเก่าที่ไม่มี Token ให้ล้างทิ้งแล้วบังคับ Login ใหม่
+          if (!userObj.token) {
+            localStorage.removeItem("user");
+            setUser(null);
+            return;
+          }
+
+          const loginTime = userObj.loginTimestamp;
+          const ONE_HOUR = 60 * 60 * 1000;
+
+          if (loginTime && (Date.now() - loginTime > ONE_HOUR)) {
+            localStorage.removeItem("user");
+            setUser(null);
+            alert("เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่");
+            window.location.reload();
+          } else {
+            setUser(userObj);
+          }
         } catch (e) {
+          localStorage.removeItem("user");
           setUser(null);
         }
       } else {
@@ -42,8 +57,9 @@ export default function App() {
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    checkSession();
+    const interval = setInterval(checkSession, 60000); // Check every minute
+    return () => clearInterval(interval);
   }, []);
 
   return (

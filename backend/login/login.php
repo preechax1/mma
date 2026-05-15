@@ -54,7 +54,11 @@
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user) {
-            response(200, 'Login successful', $user);
+            $token = generateAuthToken($user);
+            response(200, 'Login successful', [
+                'user'  => $user,
+                'token' => $token
+            ]);
         } else {
             response(401, 'Invalid username or password');
         }

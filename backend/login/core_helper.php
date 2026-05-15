@@ -75,6 +75,40 @@
     /* =====================================================
     HELPER: requestData (Get POST/JSON data)
     ===================================================== */
+    /* =====================================================
+    SECURITY: Token System (HMAC Signing)
+    ===================================================== */
+    define('AUTH_SECRET', 'MMA_SECRET_KEY_@2026'); // กุญแจลับสำหรับเซ็นชื่อ
+
+    function generateAuthToken($userData) {
+        $payload = base64_encode(json_encode([
+            'user' => $userData,
+            'iat'  => time(),
+            'exp'  => time() + 3600 // หมดอายุใน 1 ชม.
+        ]));
+        $signature = hash_hmac('sha256', $payload, AUTH_SECRET);
+        return $payload . '.' . $signature;
+    }
+
+    function verifyAuthToken($token) {
+        $parts = explode('.', $token);
+        if (count($parts) !== 2) return false;
+
+        $payload = $parts[0];
+        $signature = $parts[1];
+
+        // ตรวจสอบลายเซ็น
+        $validSignature = hash_hmac('sha256', $payload, AUTH_SECRET);
+        if ($signature !== $validSignature) return false;
+
+        $data = json_decode(base64_decode($payload), true);
+        
+        // ตรวจสอบวันหมดอายุ
+        if ($data['exp'] < time()) return false;
+
+        return $data['user'];
+    }
+
     function requestData() {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);

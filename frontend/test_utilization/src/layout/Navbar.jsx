@@ -8,14 +8,44 @@ export default function Navbar() {
     // ดึงข้อมูล User จาก LocalStorage (ที่เซ็ตมาจากหน้า Login)
     const user = JSON.parse(localStorage.getItem('user'));
 
-    const handleLogout = () => {
-        // ใช้ Confirm Modal ของ Browser แบบง่าย
-        if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+    const handleLogout = (isAuto = false) => {
+        if (isAuto || window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
             localStorage.removeItem('user');
-            navigate('/login');
-            window.location.reload(); // บังคับ App เช็ค state ใหม่
+            const currentUrl = window.location.origin + window.location.pathname;
+            window.location.href = `http://localhost:5175/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
         }
     };
+
+    React.useEffect(() => {
+        const checkLoginTimeout = () => {
+            const storedUser = localStorage.getItem("user");
+            if (storedUser) {
+                try {
+                    const userData = JSON.parse(storedUser);
+                    const loginTime = userData.loginTimestamp;
+                    
+                    if (loginTime) {
+                        const now = Date.now();
+                        const ONE_HOUR = 60 * 60 * 1000;
+
+                        if (now - loginTime > ONE_HOUR) {
+                            alert("เซสชันหมดอายุ (เกิน 1 ชั่วโมง) กรุณาเข้าสู่ระบบใหม่");
+                            handleLogout(true);
+                        }
+                    } else {
+                        userData.loginTimestamp = Date.now();
+                        localStorage.setItem("user", JSON.stringify(userData));
+                    }
+                } catch (e) {
+                    console.error("Error parsing user data for timeout check", e);
+                }
+            }
+        };
+
+        checkLoginTimeout();
+        const interval = setInterval(checkLoginTimeout, 60000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <nav className={styles.topbar}>

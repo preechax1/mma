@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { login } from "../services/LoginService";
+import styles from "./Login.module.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect");
+    if (redirect) {
+      setRedirectUrl(redirect);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -12,21 +22,32 @@ export default function Login() {
     try {
       const res = await login(username, password);
       if (res.status === 1) {
-        const payload = res.data && (res.data.member || res.data.memberID || res.data.position)
-          ? res.data
-          : res;
-        const displayName = payload.member || `${payload.FirstName || ""} ${payload.LastName || ""}`.trim() || payload.log_use || "";
+        const user = res.data?.user || res.data || res;
+        const token = res.data?.token || res.token || "";
+        
+        const displayName = user.member || `${user.FirstName || ""} ${user.LastName || ""}`.trim() || user.log_use || "";
+        
         const userData = {
-          memberID: payload.memberID || "",
-          member: payload.member || "",
-          username: payload.log_use || "",
-          firstName: payload.FirstName || "",
-          lastName: payload.LastName || "",
-          position: payload.position || "",
+          memberID: user.memberID || "",
+          member: user.member || "",
+          username: user.log_use || "",
+          firstName: user.FirstName || "",
+          lastName: user.LastName || "",
+          position: user.position || "",
           displayName,
+          loginTimestamp: Date.now(),
+          token: token,
         };
+
         localStorage.setItem("user", JSON.stringify(userData));
-        window.location.reload();
+
+        if (redirectUrl) {
+          const url = new URL(redirectUrl);
+          url.searchParams.set("token", userData.token); // Send only the token
+          window.location.href = url.toString();
+        } else {
+          window.location.reload();
+        }
       } else {
         alert(res.message || res.detail || "Username หรือ Password ไม่ถูกต้อง");
       }
@@ -39,62 +60,40 @@ export default function Login() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        backgroundColor: "#f0f0f0",
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "2rem",
-          borderRadius: "8px",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h2>ยินดีต้อนรับสู่ MMA</h2>
-        <p>กรุณาเข้าสู่ระบบเพื่อเข้าถึงแอปพลิเคชัน</p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>ยินดีต้อนรับสู่ MMA</h2>
+        <p className={styles.subtitle}>กรุณาเข้าสู่ระบบเพื่อเข้าถึงแอปพลิเคชัน</p>
 
         <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: "1rem" }}>
+          <div className={styles.formGroup}>
             <label>ชื่อผู้ใช้</label>
             <input
+              className={styles.input}
               type="text"
               placeholder="ป้อนชื่อผู้ใช้"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              style={{ width: "100%", padding: "0.5rem", marginTop: "0.5rem" }}
             />
           </div>
 
-          <div style={{ marginBottom: "1rem" }}>
+          <div className={styles.formGroup}>
             <label>รหัสผ่าน</label>
             <input
+              className={styles.input}
               type="password"
               placeholder="ป้อนรหัสผ่าน"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{ width: "100%", padding: "0.5rem", marginTop: "0.5rem" }}
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            style={{
-              width: "100%",
-              padding: "0.75rem",
-              backgroundColor: "#007bff",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-            }}
+            className={styles.button}
           >
             {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
           </button>
