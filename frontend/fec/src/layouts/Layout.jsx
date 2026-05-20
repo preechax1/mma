@@ -48,7 +48,8 @@ export default function Layout() {
         // 3. ถ้าไม่มีทั้งคู่จริงๆ ถึงค่อยเด้ง (และต้องไม่มี Token ค้างอยู่ใน URL ด้วย)
         if (!token) {
           const currentUrl = window.location.origin + window.location.pathname;
-          window.location.href = `http://localhost:5175/?redirect=${encodeURIComponent(currentUrl)}`;
+          const loginUrl = import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
+          window.location.href = `${loginUrl}/?redirect=${encodeURIComponent(currentUrl)}`;
         }
       }
     };

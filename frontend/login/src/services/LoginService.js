@@ -9,7 +9,7 @@ export const login = async (username, password) => {
   formData.append('password', password);
 
   try {
-    const response = await axios.post(base, formData);
+    const response = await axios.post(`${base}/login`, formData);
     return response.data;
   } catch (error) {
     console.error("Login Error:", error);

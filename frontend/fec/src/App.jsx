@@ -7,13 +7,13 @@ import UpdateForm from "./pages/UpdateForm";
 
 export default function App() {
   return (
-    <BrowserRouter basename="/fec/">
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
-          <Route path="/record/records" element={<Records />} /> 
+          <Route path="/record/records" element={<Records />} />
           <Route path="/record/recordsn/:serial" element={<Records />} />
           <Route path="/record/recordid/:id" element={<Records />} />
 

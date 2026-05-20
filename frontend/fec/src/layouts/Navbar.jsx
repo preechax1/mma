@@ -14,7 +14,8 @@ export default function Navbar() {
       localStorage.removeItem("user");
       // Redirect to central login with a return URL
       const currentUrl = window.location.origin + window.location.pathname;
-      window.location.href = `http://localhost:5175/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
+      const loginUrl = import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
+      window.location.href = `${loginUrl}/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
     }
   };
 
