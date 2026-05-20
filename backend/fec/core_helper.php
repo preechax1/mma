@@ -47,9 +47,13 @@
 
 
     /* =====================================================
-    File BASE
+    File BASE 
     ===================================================== */
-    // ✅ ปรับให้เป็น path สัมพัทธ์
-    $base_dir = __DIR__ . "/../uploads/fec/";
-    $web_base = "/uploads/fec/";
-?>
+    // ✅ ปรับให้เป็น path สัมพัทธ์  Dev
+    // $base_dir = __DIR__ . "/../uploads/fec/";
+    // $web_base = "/uploads/fec/";
+
+    $base_dir = "D:/Storage_MMA_TE/WebAppData/DataFile/fec/";
+    $web_base = "/web_upload/fec/";
+    
+?>   
