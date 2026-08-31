@@ -1,0 +1,81 @@
+.card {
+  width: min(1000px, 100%);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  padding: 2rem;
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  padding-bottom: 1.35rem;
+  margin-bottom: 1.75rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 0.5rem 0 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.logoutButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 0.95rem 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.infoSection {
+  color: #334155;
+  line-height: 1.8;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.text {
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+}
+
+.featureList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.featureList li {
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}

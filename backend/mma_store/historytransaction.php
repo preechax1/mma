@@ -6,6 +6,7 @@
     ===================================================== */
     $route  = getAction('historytransaction');
     $action = $route['action'];
+    $id         = $route['id'];
 
     /* =====================================================
     DEFAULT ROUTE (/historytransaction)
@@ -22,6 +23,7 @@
     try {
         switch ($action) {
             case 'main': historytransaction($dbh);   break;
+            case 'upload_file': upload_file($id); break;
             default:
                 sendResponse(400, 'Error', 'Action Fail');
                 break;
@@ -81,6 +83,40 @@ function historytransaction(){
         $rows[$key]['real_files'] = $fileUrls;
         
         // กรองเอาเฉพาะรูปภาพไฟล์แรกมาเป็น Thumbnail
+        $imageOnly = array_values(preg_grep("/\.(jpg|jpeg|png|gif)$/i", $fileUrls));
+        $rows[$key]['image'] = (!empty($imageOnly)) ? $imageOnly[0] : null;
+    }
+
+    sendResponse(200, 'History Spare api success', $rows);
+}
+
+
+function upload_file($id){
+    $rows = [
+        ['order_id' => $id] 
+    ];
+
+    $diskPath = "D:/Storage_MMA_TE/WebAppData/DataFile/spare/store/"; 
+    $webPath = "/web_upload/spare/store/"; 
+
+    foreach ($rows as $key => $row) {
+        $folderName = "ID" . $row['order_id']; 
+        $targetDir = $diskPath . $folderName;
+        $fileUrls = [];
+
+        if (is_dir($targetDir)) {
+            $files = scandir($targetDir);
+            foreach ($files as $file) {
+                if ($file !== '.' && $file !== '..') {
+                    if (is_file($targetDir . '/' . $file)) {
+                        $fileUrls[] = $webPath . $folderName . "/" . $file;
+                    }
+                }
+            }
+        }
+
+        $rows[$key]['real_files'] = $fileUrls;
+        
         $imageOnly = array_values(preg_grep("/\.(jpg|jpeg|png|gif)$/i", $fileUrls));
         $rows[$key]['image'] = (!empty($imageOnly)) ? $imageOnly[0] : null;
     }

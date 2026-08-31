@@ -1,19 +1,42 @@
-/* กำหนดตัวแปรสีไว้ที่ระดับ container หรือ :local */
 .chart-container {
-  --color-good: #10b981;
-  --color-fail: #ef4444;
-  --color-keep-on-store: #f59e0b;
-  --color-repair: #3b82f6;
-  --color-default: #6b7280;
+  --color-good: #2ec77f;
+  --color-fail: #ef6669;
+  --color-keep-on-store: #e8af4d;
+  --color-repair: #606570;
+  --color-default: #a7b0bf;
 }
 
 .chart-card {
-  background: #1e293b;
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff 0%, #f9f6ff 100%);
+  border: 1px solid rgba(132, 171, 226, 0.844);
+  border-radius: 18px;
+  padding: 18px 18px 10px;
+  box-shadow: 0 10px 24px rgba(70, 117, 228, 0.836);
 }
 
 .chart-card h2 {
-  color: #fff;
-  margin-bottom: 1rem;
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--picto-ink);
+  letter-spacing: -0.02em;
+}
+
+.chart-card :global(.recharts-cartesian-grid line) {
+  stroke: rgba(85, 142, 223, 0.932);
+}
+
+.chart-card :global(.recharts-text) {
+  fill: #64748b;
+  font-size: 11px;
+}
+
+.chart-card :global(.recharts-tooltip-wrapper) {
+  outline: none;
+}
+
+.chart-card :global(.recharts-default-tooltip) {
+  border-radius: 10px !important;
+  border: 1px solid rgba(91, 152, 237, 0.912) !important;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08) !important;
 }

@@ -2,14 +2,17 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { getDetailFEC, submitFormData, getOptions } from "../services/updateform";
-import { API_BASE_URL } from "../apiConfig";
+import {
+  getDetailFEC,
+  submitFormData,
+  getOptions,
+} from "../services/updateform";
+import { API_BASE_URL } from "../services/apiConfig";
 
 import FileDropzone from "../components/form/FileDropzone";
 import FormCard from "../components/form/FormCard";
 import InputGrid from "../components/form/InputGrid";
 import InputField from "../components/form/InputField";
-import TextareaField from "../components/form/TextareaField";
 import SelectField from "../components/form/SelectField";
 
 import styles from "./UpdateForm.module.css";
@@ -20,8 +23,6 @@ export default function Register() {
 
   const isUpdate = Boolean(id);
   const disabled = false;
-
-  /* ================= FIX 1: INITIAL STATE ครบทุก field ================= */
 
   const [form, setForm] = useState({
     fctID: "",
@@ -49,8 +50,6 @@ export default function Register() {
 
   const [loading, setLoading] = useState(false);
 
-  /* ================= LOAD SELECT ================= */
-
   useEffect(() => {
     loadSelects();
   }, [id]);
@@ -66,8 +65,6 @@ export default function Register() {
     }
   };
 
-  /* ================= LOAD DATA ================= */
-
   useEffect(() => {
     if (isUpdate) loadData();
   }, [id]);
@@ -78,7 +75,6 @@ export default function Register() {
       const data = await getDetailFEC(id);
 
       if (data && data.detail) {
-        /* ================= FIX 2: map ค่าให้ครบ ================= */
         setForm({
           fctID: data.detail.fctID || "",
           serial: data.detail.serial || "",
@@ -95,7 +91,6 @@ export default function Register() {
           active: data.detail.active ?? 1,
         });
 
-        // Update selectData with options from detail response if available
         setSelectData({
           product: data.product || [],
           modify_fuse: data.modify_fuse || [],
@@ -109,8 +104,6 @@ export default function Register() {
     }
   };
 
-  /* ================= CHANGE ================= */
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -119,58 +112,81 @@ export default function Register() {
     }));
   };
 
-  /* ================= UPLOAD ================= */
-
   const [uploadMsg, setUploadMsg] = useState("");
   useEffect(() => {
     if (uploadMsg) {
       const timer = setTimeout(() => {
         setUploadMsg("");
       }, 2000);
-
       return () => clearTimeout(timer);
     }
   }, [uploadMsg]);
 
   const handleUpload = useCallback(
-    async (file) => {
-      // ✅ ต้องมี ID ก่อนถึงจะอัปโหลดได้
+    async (fileOrEvent) => {
       if (!id) {
         alert("Please save the record first before uploading files.");
         return;
       }
 
+      let file;
+
+      // เคสที่ 1: มาจาก <input type="file" /> (Event)
+      if (fileOrEvent?.target?.files) {
+        file = fileOrEvent.target.files[0];
+      }
+      // เคสที่ 2: มาจาก Dropzone ที่ส่งมาเป็น FileList หรือ Array ของไฟล์ [file, file]
+      else if (fileOrEvent instanceof FileList || Array.isArray(fileOrEvent)) {
+        file = fileOrEvent[0]; // ดึงไฟล์ตัวแรกออกมาตรงๆ
+      }
+      // เคสที่ 3: ส่งมาเป็น Object File ชิ้นเดียวอยู่แล้ว
+      else {
+        file = fileOrEvent;
+      }
+
+      // ป้องกันกรณีที่ไม่มีไฟล์ส่งมาเลย
+      if (!file) {
+        console.error("No valid file selected.");
+        return;
+      }
+
       try {
         const fd = new FormData();
+        // มั่นใจได้ร้อยเปอร์เซ็นต์ว่า 'file' ตรงนี้เป็น File Object ไม่ใช่ FileList หรือ String
         fd.append("fileupload[]", file);
         fd.append("id", id || "");
         fd.append("function", "upload");
 
         const res = await axios.post(`${API_BASE_URL}/file_api.php`, fd, {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
 
         if (res.data.status === 1) {
           setUploadMsg(res.data.message);
+          if (fileOrEvent?.target) {
+            fileOrEvent.target.value = null; // reset input
+          }
         } else {
-          setUploadMsg("Upload failed: " + (res.data.message || "Unknown error"));
+          setUploadMsg(
+            "Upload failed: " + (res.data.message || "Unknown error"),
+          );
         }
       } catch (err) {
         console.error("Upload error:", err);
-        setUploadMsg("Upload error: " + (err.response?.data?.message || err.message));
+        setUploadMsg(
+          "Upload error: " + (err.response?.data?.message || err.message),
+        );
       }
     },
     [id],
   );
 
-  /* ================= SUBMIT ================= */
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-
-      // ดึง memberID จาก localStorage (เหมือนที่ Navbar.jsx ใช้)
       const userStr = localStorage.getItem("user");
       const user = userStr ? JSON.parse(userStr) : null;
       const memberID = user?.memberID || "";
@@ -207,14 +223,12 @@ export default function Register() {
       <div className={styles.formWrapper}>
         <header className={styles.header}>
           <h1 className={styles.title}>
-            {isUpdate ? "Update Record" : "Create New Record"}
+            {isUpdate ? `Update Record ID: ${id}` : "Create New Record"}
           </h1>
-          <p className={styles.subtitle}>
-            {isUpdate ? `Editing record ID: ${id}` : "Fill in the details to create a new production record"}
-          </p>
         </header>
 
-        <form onSubmit={handleSubmit} className={styles.formGrid}>
+        <form onSubmit={handleSubmit} className={styles.formFlex}>
+          {/* Section 1 */}
           <FormCard title="Product Information">
             <InputGrid>
               <SelectField
@@ -226,7 +240,6 @@ export default function Register() {
                 onChange={handleChange}
                 disabled={disabled}
               />
-
               <InputField
                 label="Serial"
                 name="serial"
@@ -234,7 +247,6 @@ export default function Register() {
                 onChange={handleChange}
                 disabled={disabled}
               />
-
               <InputField
                 label="Board No"
                 name="board_no"
@@ -242,7 +254,6 @@ export default function Register() {
                 onChange={handleChange}
                 disabled={disabled}
               />
-
               <SelectField
                 label="Modify Fuse"
                 name="fuse"
@@ -255,50 +266,7 @@ export default function Register() {
             </InputGrid>
           </FormCard>
 
-          <FormCard title="Failure Detail">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <TextareaField
-                label="Failures"
-                name="faillures"
-                value={form.faillures}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-
-              <TextareaField
-                label="Root Cause"
-                name="root_cause"
-                value={form.root_cause}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-
-              <TextareaField
-                label="Disposition"
-                name="disposition"
-                value={form.disposition}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-
-              <SelectField
-                label="Fuse Rework"
-                name="fuse_rework"
-                value={form.fuse_rework}
-                options={selectData.fuse_rework}
-                textKey="value"
-                onChange={handleChange}
-                disabled={disabled}
-              />
-            </div>
-
-            {!disabled && (
-              <div className="mt-8">
-                <FileDropzone onUpload={handleUpload} uploadMsg={uploadMsg} />
-              </div>
-            )}
-          </FormCard>
-
+          {/* Section 2 */}
           <FormCard title="Test Information">
             <InputGrid>
               <SelectField
@@ -310,11 +278,58 @@ export default function Register() {
                 onChange={handleChange}
                 disabled={disabled}
               />
-
+              <div className={styles.uploadGroup}>
+                {!disabled && (
+                  <div className={styles.dropzoneWrapper}>
+                    <label className={styles.fieldLabel}>Attachment File</label>
+                    <FileDropzone
+                      onUpload={handleUpload}
+                      uploadMsg={uploadMsg}
+                    />
+                  </div>
+                )}
+              </div>
               <InputField
                 label="Remark"
                 name="remark"
                 value={form.remark}
+                onChange={handleChange}
+                disabled={disabled}
+              />
+              <InputField
+                label="Failures"
+                name="faillures"
+                value={form.faillures}
+                onChange={handleChange}
+                disabled={disabled}
+              />
+            </InputGrid>
+          </FormCard>
+
+          {/* Section 3 */}
+          <FormCard title="Failure Detail">
+            <InputGrid>
+              <InputField
+                label="Root Cause"
+                name="root_cause"
+                value={form.root_cause}
+                onChange={handleChange}
+                disabled={disabled}
+              />
+              <InputField
+                label="Disposition"
+                name="disposition"
+                value={form.disposition}
+                onChange={handleChange}
+                disabled={disabled}
+              />
+
+              <SelectField
+                label="Use Fuse for Rework"
+                name="fuse_rework"
+                value={form.fuse_rework}
+                options={selectData.fuse_rework}
+                textKey="value"
                 onChange={handleChange}
                 disabled={disabled}
               />
@@ -331,6 +346,7 @@ export default function Register() {
             </InputGrid>
           </FormCard>
 
+          {/* ปุ่ม Submit แยกออกมาด้านล่างสุดของฟอร์มหลักให้สมดุลและคลิกง่าย */}
           {!disabled && Number(form.active) === 1 && (
             <div className={styles.submitSection}>
               <button

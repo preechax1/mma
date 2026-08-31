@@ -35,7 +35,7 @@
 
     function model($id){ global $dbh; global $web_base;
 
-        $sql="SELECT spare_id AS id, category, model, description, part_number, minimum_stock, onhand, storage,
+        $sql="SELECT spare_id AS id, category, model, description, for_product,  part_number, minimum_stock, onhand, storage,
             CONCAT('".$web_base."','model/ID',spare_id ,'.jpg?v=',UNIX_TIMESTAMP()) AS image
             FROM mma_spare 
             WHERE spare_id = :id
@@ -64,6 +64,8 @@
         // ตรวจสอบทั้งจาก JSON และ $_POST (FormData)
         $qty = intval($data['WithdrawQuantity'] ?? $_POST['WithdrawQuantity'] ?? 0);
         $memberID = $data['memberID'] ?? $_POST['memberID'] ?? null;
+
+        $UseFor = $data['UseFor'] ?? $_POST['UseFor'] ?? null;
         
         if ($qty <= 0) response(400, 'Invalid quantity: ' . $qty);
 
@@ -110,12 +112,13 @@
             }
             
             // 3. บันทึกประวัติการเบิก
-            $sql_log = "INSERT INTO mma_spare_transaction (spare_id, order_header, quantity, create_at, created_by) 
-                        VALUES (:spare_id, 'Withdraw', :quantity, NOW(), :created_by)";
+            $sql_log = "INSERT INTO mma_spare_transaction (spare_id, order_header, quantity, use_for, create_at, created_by) 
+                        VALUES (:spare_id, 'Withdraw', :quantity,   :use_for, NOW(), :created_by)";
             $stmt_log = $dbh->prepare($sql_log);
             $stmt_log->execute([
                 ':spare_id'   => $id,
                 ':quantity'   => $qty,
+                ':use_for'     => $UseFor,   
                 ':created_by' => $memberID
             ]);
             

@@ -1,0 +1,24 @@
+:root {
+  color-scheme: dark;
+}
+
+.pageWrapper {
+  min-height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.12), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.14), transparent 25%),
+    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+}
+
+.scrollContainer {
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 0;
+  }
+}

@@ -1,0 +1,11 @@
+@import './fieldShared.module.css';
+
+.textarea {
+  min-height: 72px;
+  resize: none;
+  line-height: 1.4;
+}
+
+.textarea::placeholder {
+  color: #cbd5e1;
+}

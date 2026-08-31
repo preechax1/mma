@@ -1,0 +1,155 @@
+CREATE TABLE mma_spare (
+    spare_id INT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(50),
+    spare_type VARCHAR(50),
+    model VARCHAR(20),
+    brand VARCHAR(20),
+    storage VARCHAR(50),
+    product_for TEXT,
+    buy_owner VARCHAR(20),
+    part_number VARCHAR(50) UNIQUE,
+    hana_part_number VARCHAR(50),
+    description TEXT,
+    onhand INT DEFAULT 0,
+    minimum_stock INT DEFAULT 0,
+    active_status TINYINT(1) DEFAULT 1,
+    range_name VARCHAR(20),
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    update_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+              ON UPDATE CURRENT_TIMESTAMP,
+    created_by INT
+);
+
+CREATE TABLE mma_spare_transaction (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    spare_id INT NOT NULL,
+    order_header VARCHAR(20),
+    use_for TEXT,
+    order_detail TEXT,
+    quantity INT,
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    INDEX(spare_id)
+);
+
+
+
+
+
+
+
+ALTER TABLE mma_spare_transaction
+ADD CONSTRAINT fk_mma_spare_transaction_spare_id
+FOREIGN KEY (spare_id)
+REFERENCES mma_spare(spare_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+ALTER TABLE mma_spare
+ADD CONSTRAINT fk_mma_spare_created_by
+FOREIGN KEY (created_by)
+REFERENCES tbl_member(memberID)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+ALTER TABLE mma_spare_transaction
+ADD CONSTRAINT fk_mma_spare_transaction_created_by
+FOREIGN KEY (created_by)
+REFERENCES tbl_member(memberID)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+
+
+
+
+
+
+***********************
+INSERT INTO mma_spare (
+    spare_id,
+    category,
+    spare_type,
+    model,
+    brand,
+    storage,
+    product_for,
+    buy_owner,
+    part_number,
+    hana_part_number,
+    description,
+    onhand,
+    minimum_stock,
+    active_status,
+    range_name,
+    create_at,
+    update_at
+)
+SELECT
+    t.SpareModelID,
+    t.Category,
+    t.Type,
+    t.SpareModel,
+    t.Brand,
+    t.Area,
+    t.Detail,
+    t.BuyOrder,
+    NULLIF(t.PartNumber, ''),
+    t.HanaPartNumber,
+    t.Description,
+    t.HaveQuantity,
+    t.RequestQuantitty,
+    t.ActiveStatus,
+    t.RangeName,
+    t.create_at,
+    t.update_at
+FROM tb_spare_model t
+WHERE t.ActiveStatus = 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE mma_spare_transaction
+ADD CONSTRAINT fk_spare
+FOREIGN KEY (spare_id)
+REFERENCES mma_spare(spare_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+
+ALTER TABLE mma_spare
+ADD CONSTRAINT fk_spare_member
+FOREIGN KEY (created_by)
+REFERENCES tbl_member(memberID)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+
+ALTER TABLE mma_spare_transaction
+ADD CONSTRAINT fk_transaction_member
+FOREIGN KEY (created_by)
+REFERENCES tbl_member(memberID)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;

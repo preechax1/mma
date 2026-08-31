@@ -50,6 +50,7 @@
   font-size: 0.9rem;
 }
 
+/* แก้ไขคลาส .input ในไฟล์ Login.module.css */
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -57,14 +58,21 @@
   border: 1px solid #e5e7eb;
   background: rgba(255, 255, 255, 0.5);
   font-size: 1rem;
+  
+  /* 🌟 เพิ่มบรรทัดนี้เพื่อบังคับให้ตัวอักษรที่พิมพ์เป็นสีเข้มเสมอ */
+  color: #1f2937; 
+  
   transition: all 0.2s;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--primary, #4f46e5); /* ใส่สีสำรองเผื่อ變數ไม่ทำงาน */
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
   background: white;
+  
+  /* 🌟 เพิ่มบรรทัดนี้เพื่อความชัวร์ตอนโฟกัส */
+  color: #000000; 
 }
 
 .button {

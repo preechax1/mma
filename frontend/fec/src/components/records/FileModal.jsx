@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
     fetchFilesByRecord,
     uploadFile,
@@ -32,6 +33,17 @@ const FileModal = ({ recordId, isOpen, onClose }) => {
             loadFiles();
         }
     }, [isOpen, recordId]);
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isOpen]);
 
     /* ==============================
        Upload (รองรับหลายไฟล์)
@@ -72,9 +84,9 @@ const FileModal = ({ recordId, isOpen, onClose }) => {
         }
     };
 
-    if (!isOpen) return null;
+    if (!isOpen || typeof document === "undefined") return null;
 
-    return (
+    return createPortal(
         <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
             <div className={styles.modal}>
 
@@ -147,7 +159,8 @@ const FileModal = ({ recordId, isOpen, onClose }) => {
                     )}
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body,
     );
 };
 

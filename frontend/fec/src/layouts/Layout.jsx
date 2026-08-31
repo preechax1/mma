@@ -1,7 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
 import styles from "./Layout.module.css";
 
 export default function Layout() {
@@ -24,16 +23,19 @@ export default function Layout() {
             member: userData.member || "",
             position: userData.position || "",
             username: userData.log_use || "",
-            displayName: userData.member || `${userData.FirstName || ""} ${userData.LastName || ""}`.trim() || "",
+            displayName:
+              userData.member ||
+              `${userData.FirstName || ""} ${userData.LastName || ""}`.trim() ||
+              "",
             loginTimestamp: Date.now(),
             token: token,
           };
           localStorage.setItem("user", JSON.stringify(payload));
-          
+
           // ลบ Token ออกจาก URL และ "ไม่ต้องโหลดหน้าใหม่"
           const cleanUrl = window.location.origin + window.location.pathname;
           window.history.replaceState({}, document.title, cleanUrl);
-          
+
           setIsAuthChecking(false);
           return;
         } catch (e) {
@@ -48,7 +50,8 @@ export default function Layout() {
         // 3. ถ้าไม่มีทั้งคู่จริงๆ ถึงค่อยเด้ง (และต้องไม่มี Token ค้างอยู่ใน URL ด้วย)
         if (!token) {
           const currentUrl = window.location.origin + window.location.pathname;
-          const loginUrl = import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
+          const loginUrl =
+            import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
           window.location.href = `${loginUrl}/?redirect=${encodeURIComponent(currentUrl)}`;
         }
       }
@@ -58,14 +61,17 @@ export default function Layout() {
   }, []);
 
   if (isAuthChecking) {
-    return <div style={{ padding: "2rem", textAlign: "center", color: "#666" }}>กำลังยืนยันตัวตน...</div>;
+    return (
+      <div style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
+        กำลังยืนยันตัวตน...
+      </div>
+    );
   }
 
   return (
     <div className={styles.layout}>
       <Navbar />
       <div className={styles.wrapper}>
-        <Sidebar />
         <main className={styles.content}>
           <Outlet />
         </main>

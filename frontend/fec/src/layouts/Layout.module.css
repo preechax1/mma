@@ -3,83 +3,71 @@
 /* =========================================== */
 
 .layout {
-  background: linear-gradient(180deg, #090e1f 0%, #111827 100%);
-  color: #f8fafc;
+  --picto-purple: var(--color-brand);
+  --picto-purple-dark: var(--color-brand-strong);
+  --picto-purple-soft: var(--color-brand-soft);
+  --picto-ink: var(--color-ink);
+  --picto-muted: var(--color-muted);
+  --picto-border: var(--color-border);
+  --picto-surface: var(--color-surface);
+  background: linear-gradient(135deg, #ffffff 0%, #fbf8ff 55%, #f5fbff 100%);
+  color: var(--picto-ink);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .wrapper {
   display: flex;
   flex: 1;
-  min-height: calc(100vh - 68px);
-  margin-top: 10px;
-  gap: 18px;
-  padding: 0 18px 18px;
+  min-height: 0;
+  margin-top: 104px;
+  gap: 12px;
+  padding: 0 16px 14px 16px;
   box-sizing: border-box;
 }
-
-/* =========================================== */
-/* MAIN CONTENT AREA */
-/* =========================================== */
 
 .content {
   flex: 1;
   min-width: 0;
-  background: rgba(15, 23, 42, 0.96);
-  border-radius: 26px;
-  padding: 24px;
-  overflow-y: auto;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 0;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 20px;
+  overflow: visible;
+  box-shadow: 0 12px 30px rgba(68, 35, 95, 0.06);
+  border: 1px solid rgba(158, 126, 183, 0.1);
   backdrop-filter: blur(10px);
-  scrollbar-width: thin;
-  scrollbar-color: #94a3b8 #0f172a;
-}
-
-/* Custom Scrollbar สำหรับ Chrome/Safari */
-.content::-webkit-scrollbar {
-  width: 10px;
-}
-
-.content::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
-}
-
-.content::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.45);
-  border-radius: 999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-.content::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.75);
 }
 
 @media (max-width: 1024px) {
   .wrapper {
     flex-direction: column;
-    min-height: auto;
-    margin-top: 0;
-    padding: 0 14px 14px;
+    min-height: calc(100vh - 104px);
+    margin-top: 104px;
+    padding: 0 12px 12px 12px;
   }
 
   .content {
-    padding: 20px;
+    min-height: 0;
+    padding: 18px;
+    margin: 0 auto;
   }
 }
 
 @media (max-width: 768px) {
   .wrapper {
-    padding: 0 10px 10px;
+    margin-top: 88px;
+    padding: 0 10px 10px 10px;
   }
 
   .content {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 14px;
+    border-radius: 16px;
   }
 }
 

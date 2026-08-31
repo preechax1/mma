@@ -1,4 +1,6 @@
-import { API_BASE_URL } from "../apiConfig";
+import { API_BASE_URL } from './apiConfig';
+
+
 const base = `${API_BASE_URL}/dashboard`;
 
 

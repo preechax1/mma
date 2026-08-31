@@ -39,7 +39,21 @@ export default function Login() {
                     token: token,
                 };
 
+                const appMeta = {
+                    title: res.data?.pageTitle || 'Welcome to MMA System',
+                    subtitle: res.data?.pageSubtitle || 'Manufacturing Management Applications',
+                    description: res.data?.description || 'MMA is a comprehensive platform designed to streamline and optimize manufacturing operations.',
+                    features: res.data?.features || [
+                        'Real-time equipment status monitoring',
+                        'Test utilization analytics and reporting',
+                        'Energy consumption tracking and optimization',
+                        'Comprehensive dashboard with visual insights',
+                        'Secure user authentication and role-based access',
+                    ],
+                };
+
                 localStorage.setItem("user", JSON.stringify(userData));
+                localStorage.setItem("appMeta", JSON.stringify(appMeta));
 
                 if (redirectUrl) {
                     const url = new URL(redirectUrl);

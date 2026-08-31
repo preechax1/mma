@@ -31,7 +31,7 @@ export default function RecordsTable({ data = [], loading }) {
                 ),
             },
 
-            { header: "Station", accessorKey: "station" },
+            // { header: "Station", accessorKey: "station" },
 
             { header: "Product", accessorKey: "product" },
 
@@ -48,17 +48,17 @@ export default function RecordsTable({ data = [], loading }) {
                 ),
             },
 
-            { header: "Failures", accessorKey: "failures" },
+            { header: "Failures", accessorKey: "faillures" },
 
-            {
-                header: "Fuse",
-                accessorKey: "fuse",
-                cell: ({ getValue }) => (getValue() === "1" ? (
-                    <span className="text-emerald-500 text-lg">●</span>
-                ) : (
-                    <span className="text-slate-300 text-lg">○</span>
-                )),
-            },
+            // {
+            //     header: "Fuse",
+            //     accessorKey: "fuse",
+            //     cell: ({ getValue }) => (getValue() === "1" ? (
+            //         <span className="text-emerald-500 text-lg">●</span>
+            //     ) : (
+            //         <span className="text-slate-300 text-lg">○</span>
+            //     )),
+            // },
 
             {
                 header: "Status",
@@ -80,7 +80,7 @@ export default function RecordsTable({ data = [], loading }) {
             { header: "Update", accessorKey: "date_update" },
 
             {
-                header: "File",
+                header: "File Upload",
                 id: "file_action",
                 cell: ({ row }) => {
                     const recordId = row.original?.fctID;

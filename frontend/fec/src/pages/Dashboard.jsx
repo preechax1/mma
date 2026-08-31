@@ -9,7 +9,6 @@ import { getStatusFec, getStatusGroupFec } from "../services/dashboardService";
 import "./Dashboard.module.css";
 
 export default function Dashboard() {
-  console.log("Dashboard component mounted");
   const [statusFec, setStatusFec] = useState([]);
   const [statusGroup, setStatusGroup] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +45,7 @@ export default function Dashboard() {
 
   // Load API
   const loadStatus = useCallback(async (isSilent = false) => {
-    console.log("loadStatus called, isSilent:", isSilent);
+    
     try {
       if (!isSilent) setLoading(true);
       setError(null);
@@ -56,12 +55,7 @@ export default function Dashboard() {
         getStatusGroupFec(),
       ]);
 
-      console.log(
-        "API responses - status:",
-        status,
-        "statusGroupData:",
-        statusGroupData,
-      );
+      
 
       setStatusFec(status || []);
       setStatusGroup(statusGroupData || []);
@@ -76,21 +70,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadStatus();
-    const interval = setInterval(() => loadStatus(true), 30000); // Auto-refresh ทุก 30 วินาที
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => loadStatus(true), 30000); // Auto-refresh ทุก 30 วินาที
+    // return () => clearInterval(interval);
   }, [loadStatus]);
 
   if (loading) {
-    console.log("Showing loading screen");
+
     return <div className="loading-screen">กำลังโหลดข้อมูล...</div>;
   }
 
-  console.log(
-    "Rendering dashboard content, statusFec:",
-    statusFec,
-    "statusGroup:",
-    statusGroup,
-  );
+
 
   return (
     <div className="dashboard-container">

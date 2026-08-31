@@ -1,34 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { navigateToApp } from '../services/AppNavigationService';
+import { getSections } from '../services/sections';
 
 export default function AppSelection() {
-    const userData = localStorage.getItem("user");
-    const user = userData && userData !== "undefined" ? JSON.parse(userData) : null;
-    const displayName = user
-        ? user.displayName || user.member || `${user.firstName || ""} ${user.lastName || ""}`.trim()
-        : "";
+    const [sections, setSections] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [pageMeta, setPageMeta] = useState({
+        title: 'Welcome to MMA System',
+        subtitle: 'Manufacturing Management Applications',
+        description: 'MMA is a comprehensive platform designed to streamline and optimize manufacturing operations.',
+        features: [
+            'Real-time equipment status monitoring',
+            'Test utilization analytics and reporting',
+            'Energy consumption tracking and optimization',
+            'Comprehensive dashboard with visual insights',
+            'Secure user authentication and role-based access',
+        ],
+    });
 
-    const buildAppUrl = (baseUrl) => {
-        const params = new URLSearchParams({
-            memberID: user?.memberID || "",
-            member: user?.displayName || user?.member || "",
-            position: user?.position || "",
-            username: user?.username || "",
-        });
-        return `${baseUrl}?${params.toString()}`;
-    };
+    const userData = localStorage.getItem('user');
+    const user = userData && userData !== 'undefined' ? JSON.parse(userData) : null;
+    const displayName = user
+        ? user.displayName || user.member || `${user.firstName || ''} ${user.lastName || ''}`.trim()
+        : '';
+
+    useEffect(() => {
+        const loadSections = async () => {
+            try {
+                const result = await getSections();
+                if (Array.isArray(result)) {
+                    setSections(result);
+                    const heroSection = result.find((section) => section.id === 'hero');
+                    if (heroSection) {
+                        setPageMeta((prev) => ({
+                            ...prev,
+                            title: heroSection.title || heroSection.label || prev.title,
+                            subtitle: heroSection.subtitle || prev.subtitle,
+                            description: heroSection.description || prev.description,
+                            features: Array.isArray(heroSection.features) && heroSection.features.length > 0 ? heroSection.features : prev.features,
+                        }));
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load sections', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadSections();
+    }, []);
 
     const handleSelectApp = (app) => {
-        if (app === 'fec') {
-            const fecUrl = import.meta.env.VITE_FEC_URL || 'http://localhost:5173';
-            window.location.href = buildAppUrl(fecUrl);
-        } else if (app === 'test_utilization') {
-            const testUrl = import.meta.env.VITE_TEST_UTILIZATION_URL || 'http://localhost:5174';
-            window.location.href = buildAppUrl(testUrl);
-        }
+        navigateToApp(app, user?.token);
     };
 
     const handleLogout = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('appMeta');
         window.location.reload();
     };
 
@@ -36,8 +65,8 @@ export default function AppSelection() {
         <div style={{ minHeight: '100vh', backgroundColor: '#f0f0f0', padding: '2rem' }}>
             {/* Header */}
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h1 style={{ color: '#333', fontSize: '2.5rem', marginBottom: '0.5rem' }}>Welcome to MMA System</h1>
-                <p style={{ color: '#666', fontSize: '1.2rem' }}>Manufacturing Management Applications</p>
+                <h1 style={{ color: '#333', fontSize: '2.5rem', marginBottom: '0.5rem' }}>{pageMeta.title}</h1>
+                <p style={{ color: '#666', fontSize: '1.2rem' }}>{pageMeta.subtitle}</p>
             </div>
 
             {/* User Info */}
@@ -52,51 +81,60 @@ export default function AppSelection() {
             {/* Organization Introduction */}
             <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 0 10px rgba(0,0,0,0.1)', marginBottom: '2rem' }}>
                 <h2 style={{ color: '#333', marginBottom: '1rem' }}>About Our Organization</h2>
-                <p style={{ lineHeight: '1.6', color: '#555' }}>
-                    MMA (Manufacturing Management Applications) is a comprehensive system designed to streamline and optimize manufacturing processes.
-                    Our platform provides integrated solutions for equipment monitoring, test utilization tracking, and facility energy consumption management.
-                    With real-time data analytics and user-friendly interfaces, we help organizations improve efficiency, reduce downtime, and make data-driven decisions.
-                </p>
+                <p style={{ lineHeight: '1.6', color: '#555' }}>{pageMeta.description}</p>
                 <div style={{ marginTop: '1rem' }}>
                     <h3 style={{ color: '#333' }}>Key Features:</h3>
                     <ul style={{ color: '#555', paddingLeft: '2rem' }}>
-                        <li>Real-time equipment status monitoring</li>
-                        <li>Test utilization analytics and reporting</li>
-                        <li>Energy consumption tracking and optimization</li>
-                        <li>Comprehensive dashboard with visual insights</li>
-                        <li>Secure user authentication and role-based access</li>
+                        {pageMeta.features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                        ))}
                     </ul>
                 </div>
             </div>
 
             {/* Application Selection */}
             <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 0 10px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-                <h2 style={{ color: '#333', marginBottom: '1rem' }}>Available Applications</h2>
-                <p style={{ color: '#666', marginBottom: '2rem' }}>Select an application to access detailed features and data:</p>
+                <h2 style={{ color: '#333', marginBottom: '1rem' }}>{pageMeta.title}</h2>
+                <p style={{ color: '#666', marginBottom: '2rem' }}>เลือกแอปพลิเคชันจากรายการด้านล่าง</p>
 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                    <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', width: '250px' }}>
-                        <h3 style={{ color: '#28a745' }}>FEC Application</h3>
-                        <p style={{ color: '#555', marginBottom: '1rem' }}>Facility Energy Consumption monitoring and analytics</p>
-                        <button
-                            onClick={() => handleSelectApp('fec')}
-                            style={{ padding: '0.75rem 1.5rem', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}
-                        >
-                            Access FEC
-                        </button>
+                {loading ? (
+                    <p>Loading applications...</p>
+                ) : (
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                        {sections.filter((section) => section.id.startsWith('app-')).length > 0 ? (
+                            sections
+                                .filter((section) => section.id.startsWith('app-'))
+                                .map((section) => {
+                                    const appKey = section.appKey || (section.id === 'app-fec' ? 'fec' : section.id === 'app-utilization' ? 'test_utilization' : null);
+                                    return (
+                                        <div key={section.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', width: '250px' }}>
+                                            <h3 style={{ color: appKey === 'fec' ? '#28a745' : '#007bff' }}>{section.title || section.label}</h3>
+                                            <p style={{ color: '#555', marginBottom: '1rem' }}>
+                                                {section.description || 'รายละเอียดของแอปพลิเคชันนี้'}
+                                            </p>
+                                            <button
+                                                onClick={() => appKey && handleSelectApp(appKey)}
+                                                disabled={!appKey}
+                                                style={{
+                                                    padding: '0.75rem 1.5rem',
+                                                    backgroundColor: appKey === 'fec' ? '#28a745' : '#007bff',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    borderRadius: '4px',
+                                                    cursor: appKey ? 'pointer' : 'not-allowed',
+                                                    fontSize: '1rem',
+                                                }}
+                                            >
+                                                {section.buttonText || (appKey ? `Access ${section.label}` : 'Coming Soon')}
+                                            </button>
+                                        </div>
+                                    );
+                                })
+                        ) : (
+                            <p>No applications available at the moment.</p>
+                        )}
                     </div>
-
-                    <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', width: '250px' }}>
-                        <h3 style={{ color: '#007bff' }}>Test Utilization</h3>
-                        <p style={{ color: '#555', marginBottom: '1rem' }}>Test equipment utilization tracking and management</p>
-                        <button
-                            onClick={() => handleSelectApp('test_utilization')}
-                            style={{ padding: '0.75rem 1.5rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}
-                        >
-                            Access Test Utilization
-                        </button>
-                    </div>
-                </div>
+                )}
 
                 <div style={{ marginTop: '2rem' }}>
                     <button

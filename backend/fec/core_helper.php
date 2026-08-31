@@ -38,22 +38,70 @@
 
     function getAction($fileName) {
         global $segments;
-        $baseIndex = array_search($fileName . '.php', $segments) ?: array_search($fileName, $segments);
+
+        foreach ($segments as $i => $seg) {
+            if ($seg === $fileName || $seg === $fileName . '.php') {
+                return [
+                    'action' => $segments[$i + 1] ?? null,
+                    'id'     => $segments[$i + 2] ?? null
+                ];
+            }
+        }
+
         return [
-            'action' => $segments[$baseIndex + 1] ?? null,
-            'id'     => $segments[$baseIndex + 2] ?? null
+            'action' => null,
+            'id' => null
         ];
     }
 
+    /* =====================================================
+    HELPER: response (Alias for sendResponse)
+    ===================================================== */
+    function response($status, $detail, $data = null) {
+        sendResponse($status, $detail, $data);
+    }
 
     /* =====================================================
-    File BASE 
+    HELPER: requestData (Get POST/JSON data)
     ===================================================== */
-    // ✅ ปรับให้เป็น path สัมพัทธ์  Dev
-    // $base_dir = __DIR__ . "/../uploads/fec/";
-    // $web_base = "/uploads/fec/";
+    /* =====================================================
+    SECURITY: Token System (HMAC Signing)
+    ===================================================== */
+    define('AUTH_SECRET', 'MMA_SECRET_KEY_@2026'); // กุญแจลับสำหรับเซ็นชื่อ
 
-    $base_dir = "D:/Storage_MMA_TE/WebAppData/DataFile/fec/";
-    $web_base = "/web_upload/fec/";
-    
-?>   
+    function generateAuthToken($userData) {
+        $payload = base64_encode(json_encode([
+            'user' => $userData,
+            'iat'  => time(),
+            'exp'  => time() + 3600 // หมดอายุใน 1 ชม.
+        ]));
+        $signature = hash_hmac('sha256', $payload, AUTH_SECRET);
+        return $payload . '.' . $signature;
+    }
+
+    function verifyAuthToken($token) {
+        $parts = explode('.', $token);
+        if (count($parts) !== 2) return false;
+
+        $payload = $parts[0];
+        $signature = $parts[1];
+
+        // ตรวจสอบลายเซ็น
+        $validSignature = hash_hmac('sha256', $payload, AUTH_SECRET);
+        if ($signature !== $validSignature) return false;
+
+        $data = json_decode(base64_decode($payload), true);
+        
+        // ตรวจสอบวันหมดอายุ
+        if ($data['exp'] < time()) return false;
+
+        return $data['user'];
+    }
+
+    function requestData() {
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+        return array_merge($_POST, (array)$data);
+    }
+
+?>

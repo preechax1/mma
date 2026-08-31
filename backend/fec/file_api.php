@@ -3,22 +3,17 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
+require_once 'core_helper.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit(0);
 
 header("Content-Type: application/json");
 date_default_timezone_set("Asia/Bangkok");
+ 
 
-// ✅ ปรับให้เป็น path สัมพัทธ์สำหรับ Docker DEV
-// $base_dir = __DIR__ . "/../web_upload/fec/";
+$base_dir = $base_dir . "fec";
+$web_base = $web_base . "fec";
 
-// ✅ สร้าง Full URL สำหรับให้ Frontend (คนละ Port) แสดงรูปได้
-// $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
-// $host = $_SERVER['HTTP_HOST'];
-// $web_base = $protocol . "://" . $host . "/web_upload/fec/";
-
-
-$base_dir = "D:/Storage_MMA_TE/WebAppData/DataFile/fec";
-$web_base = "/web_upload/fec";
 
 $function = $_REQUEST['function'] ?? '';
 
@@ -27,9 +22,13 @@ $function = $_REQUEST['function'] ?? '';
 ================================ */
 if ($function === "get_files") {
 
-    $id = $_GET['id'] ?? '';
+    $id     = $_GET['id'] ?? '';
     $folder = "ID" . $id;
-    $dir = $base_dir . $folder;
+
+    $dir        = $base_dir . "/" . $folder;
+    $base_dir   = $base_dir . "/" . $folder;
+    $web_base  = $web_base . "/" . $folder;
+
 
     $result = [];
 
@@ -44,7 +43,7 @@ if ($function === "get_files") {
 
             $result[] = [
                 "name" => $file,
-                "file_url" => $web_base . $folder . "/" . $safe,
+                "file_url" => $web_base  . "/" . $safe,
                 "full_path" => $dir . "/" . $file,
                 "ext" => $ext
             ];
@@ -62,7 +61,7 @@ if ($function === "upload") {
 
     $id = $_POST['id'] ?? '';
     $folder = "ID" . $id;
-    $target_dir = $base_dir . $folder;
+    $target_dir = $base_dir .  "/" . $folder;
 
     if (!is_dir($target_dir)) {
         if (!mkdir($target_dir, 0777, true)) {

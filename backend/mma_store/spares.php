@@ -51,8 +51,8 @@
         $data = requestData();
 
         $sql = "INSERT INTO mma_spare(
-             category,   model,  part_number,  minimum_stock,  onhand,  storage,  spare_type, active_status ) VALUES(
-            :category,  :model, :part_number, :minimum_stock, :onhand, :storage, :spare_type, 1             )
+            category,   model,  part_number,  minimum_stock,  onhand,  storage,  spare_type, active_status, description, for_product ) VALUES(
+            :category,  :model, :part_number, :minimum_stock, :onhand, :storage, :spare_type, 1, :description, :for_product)
         ";
 
         $stmt = $dbh->prepare($sql);
@@ -64,7 +64,8 @@
         $stmt->bindParam(':onhand',         $data['onhand'],        PDO::PARAM_INT);
         $stmt->bindParam(':storage',        $data['storage'],       PDO::PARAM_STR);
         $stmt->bindParam(':spare_type',     $data['spare_type'],    PDO::PARAM_STR);
-
+        $stmt->bindParam(':description',    $data['description'],   PDO::PARAM_STR);
+        $stmt->bindParam(':for_product',    $data['for_product'],   PDO::PARAM_STR);
         $stmt->execute();
         $id = $dbh->lastInsertId();
 
@@ -93,7 +94,7 @@
 
         global $dbh; global $web_base;
 
-         $sql="SELECT spare_id AS id, category, model, spare_type, description, part_number, onhand, minimum_stock, storage,
+         $sql="SELECT spare_id AS id, category, model, spare_type, description, part_number, onhand, minimum_stock, storage, for_product,
                 CONCAT('".$web_base."','model/ID',spare_id ,'.jpg?v=',UNIX_TIMESTAMP()) AS image
             FROM mma_spare 
             ORDER BY category
@@ -188,6 +189,7 @@
             onhand          = :onhand,
             storage         = :storage,
             description     = :description,
+            for_product     = :for_product,
             spare_type      = :spare_type
             WHERE spare_id  = :id
         ";
@@ -201,6 +203,7 @@
             ":onhand"           => $data['onhand']          ?? 0,
             ":storage"          => $data['storage']         ?? '',
             ":description"      => $data['description']     ?? '',
+            ":for_product"      => $data['for_product']     ?? '',
             ":spare_type"       => $data['spare_type']      ?? '',
             ":id"               => $id
         ]);

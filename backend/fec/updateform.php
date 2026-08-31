@@ -204,42 +204,7 @@ function getDetailFEC($dbh, $id) {
 
 
 
-
-
-
-// function getRecordSerial($dbh, $serial) {
-//     if (!$serial) {
-//         sendResponse(400, 'Error', 'Missing Serial parameter');
-//         return;
-//     }
-//     $sql = getBaseSQL() . " WHERE rec_fct.serial = :serial";
-//     $stmt = $dbh->prepare($sql);
-//     $stmt->bindParam(':serial', $serial);
-//     $stmt->execute();
-    
-//     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//     sendResponse(200, 'Success', $data);
-// }
-
-// function getRecordById($dbh, $id) {
-//     if (!$id) {
-//         sendResponse(400, 'Error', 'Missing ID parameter');
-//         return;
-//     }   
-
-//     $sql = getBaseSQL() . " WHERE rec_fct.fctID = :id";
-//     $stmt = $dbh->prepare($sql);    
-//     $stmt->bindParam(':id', $id);
-//     $stmt->execute();
-    
-//     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-//     if ($data) {
-//         sendResponse(200, 'Success', $data);
-//     } else {
-//         sendResponse(404, 'Error', 'Record not found');
-//     }
-// }
-
+ 
 function getOptions($dbh) {
     // 1. Product List
     $sql_product = "SELECT DISTINCT product FROM rec_fct WHERE product IS NOT NULL ORDER BY product ASC";

@@ -2,8 +2,8 @@
     require_once 'core_helper.php';
 
     /* =====================================================
-        ROUTER LOGIC (URL Segments)
-        ===================================================== */
+    ROUTER LOGIC (URL Segments)
+    ===================================================== */
     $route = getAction('dashboard');
     $action = $route['action'];
 
@@ -44,6 +44,7 @@
         }
         sendResponse(200, 'Success', $data);
     }
+    
     function getStatusGroup($dbh) {
         $sql = "SELECT product, status, SUM(CASE WHEN (active = 1 AND control = 1) THEN 1 ELSE 0 END) AS total
                 FROM rec_fct

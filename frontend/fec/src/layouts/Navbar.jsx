@@ -1,82 +1,145 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./Navbar.module.css"; // Import CSS Module
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import styles from "./Navbar.module.css";
 
 export default function Navbar() {
-  const navigate = useNavigate();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // ดึงข้อมูล User จาก LocalStorage ที่ Layout เซ็ตไว้ให้แล้ว
-  const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : null;
+    // ดึงข้อมูล User จาก LocalStorage
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : null;
 
-  const handleLogout = (isAuto = false) => {
-    if (isAuto || window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
-      localStorage.removeItem("user");
-      // Redirect to central login with a return URL
-      const currentUrl = window.location.origin + window.location.pathname;
-      const loginUrl = import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
-      window.location.href = `${loginUrl}/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
-    }
-  };
-
-  useEffect(() => {
-    const checkLoginTimeout = () => {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        try {
-          const userData = JSON.parse(storedUser);
-          const loginTime = userData.loginTimestamp;
-          
-          if (loginTime) {
-            const now = Date.now();
-            const ONE_HOUR = 60 * 60 * 1000;
-
-            if (now - loginTime > ONE_HOUR) {
-              alert("เซสชันหมดอายุ (เกิน 1 ชั่วโมง) กรุณาเข้าสู่ระบบใหม่");
-              handleLogout(true);
-            }
-          } else {
-            // ถ้าไม่มี timestamp ให้ใส่ตัวปัจจุบัน (สำหรับคนที่ login ค้างไว้ก่อนหน้านี้)
-            userData.loginTimestamp = Date.now();
-            localStorage.setItem("user", JSON.stringify(userData));
-          }
-        } catch (e) {
-          console.error("Error parsing user data for timeout check", e);
+    const handleLogout = (isAuto = false) => {
+        if (isAuto || window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+            localStorage.removeItem("user");
+            const currentUrl = window.location.origin + window.location.pathname;
+            const loginUrl =
+                import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
+            window.location.href = `${loginUrl}/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
         }
-      }
     };
 
-    checkLoginTimeout();
-    const interval = setInterval(checkLoginTimeout, 60000); // ตรวจสอบทุก 1 นาที
-    return () => clearInterval(interval);
-  }, []);
+    useEffect(() => {
+        const checkLoginTimeout = () => {
+            const storedUser = localStorage.getItem("user");
+            if (storedUser) {
+                try {
+                    const userData = JSON.parse(storedUser);
+                    const loginTime = userData.loginTimestamp;
 
-  return (
-    <nav className={styles.topbar}>
-      {/* ส่วน Logo */}
-      <div className={styles.logo}>
-        <span className={styles.mmaSpan}>MMA</span>Test Station
-      </div>
+                    if (loginTime) {
+                        const now = Date.now();
+                        const ONE_HOUR = 60 * 60 * 1000;
 
-      {/* ส่วนข้อมูลและปุ่มควบคุม */}
-      <div className={styles.topInfo}>
-        {/* ส่วนแสดงข้อมูลผู้ใช้และปุ่ม Logout */}
-        <div className={styles.userSection}>
-          <div className={styles.userInfo}>
-            <span className={styles.userName}>
-              {user?.displayName ||
-                user?.member ||
-                user?.username ||
-                "Unknown User"}
-            </span>
-            <span className={styles.userPos}>{user?.position || "Guest"}</span>
-          </div>
+                        if (now - loginTime > ONE_HOUR) {
+                            alert("เซสชันหมดอายุ (เกิน 1 ชั่วโมง) กรุณาเข้าสู่ระบบใหม่");
+                            handleLogout(true);
+                        }
+                    } else {
+                        userData.loginTimestamp = Date.now();
+                        localStorage.setItem("user", JSON.stringify(userData));
+                    }
+                } catch (e) {
+                    console.error("Error parsing user data for timeout check", e);
+                }
+            }
+        };
 
-          <button onClick={handleLogout} className={styles.logoutBtn}>
-            Logout
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
+        checkLoginTimeout();
+        const interval = setInterval(checkLoginTimeout, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const navItems = [
+        { label: "Dashboard", path: "/" },
+        { label: "FEC Record", path: "/record/records" },
+        { label: "FEC Register", path: "/updateform" },
+    ];
+
+    const getNavLinkClass = ({ isActive }) =>
+        isActive ? `${styles.navLink} ${styles.active}` : styles.navLink;
+
+    const getMobileNavLinkClass = ({ isActive }) =>
+        isActive
+            ? `${styles.mobileNavLink} ${styles.active}`
+            : styles.mobileNavLink;
+
+    return (
+        <header className={styles.headerWrapper}>
+            <nav className={styles.navbarContainer}>
+                {/* LOGO */}
+                <div className={styles.logo}>
+                    <NavLink to="/">
+                        <span className={styles.logoText}>FEC Board</span>
+                    </NavLink>
+                </div>
+
+                {/* DESKTOP NAV LINKS */}
+                <ul className={styles.navMenu}>
+                    {navItems.map((item) => (
+                        <li key={item.path}>
+                            <NavLink to={item.path} className={getNavLinkClass}>
+                                {item.label}
+                            </NavLink>
+                        </li>
+                    ))}
+                </ul>
+
+                {/* RIGHT ACTION BUTTONS */}
+                <div className={styles.actionGroup}>
+                    {user ? (
+                        <button
+                            onClick={() => handleLogout(false)}
+                            className={styles.btnSecondary}
+                        >
+                            Logout
+                        </button>
+                    ) : (
+                        <a href="#contact" className={styles.btnPrimary}>
+                            Contact
+                        </a>
+                    )}
+
+                    {/* MOBILE TOGGLE BUTTON */}
+                    <button
+                        className={styles.mobileToggle}
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M4 6h16M4 12h16m-7 6h7"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                {/* MOBILE DROPDOWN MENU */}
+                {isMobileMenuOpen && (
+                    <ul className={styles.mobileMenu}>
+                        {navItems.map((item) => (
+                            <li key={item.path}>
+                                <NavLink
+                                    to={item.path}
+                                    className={getMobileNavLinkClass}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {item.label}
+                                </NavLink>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </nav>
+        </header>
+    );
 }

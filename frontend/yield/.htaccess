@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /OP3_MMA/yield/
+RewriteRule ^index\.html$ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /OP3_MMA/yield/index.html [L]

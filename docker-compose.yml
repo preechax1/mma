@@ -41,12 +41,30 @@ services:
     ports:
       - "5174:5173"
 
+  # Frontend YIELD
+  frontend_yield:
+    image: node:20
+    container_name: mma_yield_ui
+    working_dir: /app
+    volumes:
+      - ./frontend/yield:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5176:5176"
+
   # Backend (PHP)
   backend:
     build: ./backend
     container_name: mma_backend
     volumes:
       - ./backend:/var/www/html
+      - ./backend/uploads:/var/www/html/web_upload
+    environment:
+      - LOGIN_BASE_DIR=/var/www/html/web_upload/login
+      - LOGIN_WEB_BASE=/web_upload/login/
     ports:
       - "8080:80"
     command: apache2-foreground

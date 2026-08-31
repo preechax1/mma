@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import AppSelection from "./pages/AppSelection";
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -66,6 +67,7 @@ export default function App() {
         <BrowserRouter basename={import.meta.env.BASE_URL} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
                 <Route path="/" element={user ? <Home /> : <Login />} />
+                <Route path="/apps" element={user ? <AppSelection /> : <Navigate to="/" replace />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </BrowserRouter>

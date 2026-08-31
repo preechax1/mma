@@ -6,6 +6,7 @@ import {
     getSerial,
     getRecordById,
 } from "../services/RecordsService";
+
 import RecordsTable from "../components/records/Record";
 
 import styles from "./Records.module.css";
@@ -77,9 +78,7 @@ export default function Records() {
                     <p className={styles.loadingText}>กำลังโหลดข้อมูล...</p>
                 </div>
             ) : (
-                <div className="animate-fadeIn">
-                    <RecordsTable data={data} loading={loading} />
-                </div>
+                <RecordsTable data={data} loading={loading} />
             )}
         </div>
     );

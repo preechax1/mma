@@ -1,100 +1,108 @@
-/* D:\Docker\mma\frontend\fec\src\components\dashboard\StatusTab.module.css */
 
 .status-grid {
   display: grid;
-  /* กำหนดให้มี 4 คอลัมน์เท่าๆ กันในหน้าจอขนาดใหญ่ */
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .status-card {
-  border-radius: 12px;
-  padding: 20px 15px;
-  text-align: center;
-  color: white;
-  min-height: 110px;
-  
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  min-height: 80px;
+  padding: 18px 14px;
+  border-radius: 16px;
+  text-align: center;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: default;
-  
-  /* สีพื้นฐานกรณีไม่ตรงกับเงื่อนไขใดๆ */
-  background-color: #334155; 
+}
+
+.status-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 60%);
+  pointer-events: none;
 }
 
 .status-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
 }
 
-/* --- การจัดการสีผ่าน Data Attribute (ทดแทน COLORS import) --- */
-
 .status-card[data-status="Good"] {
-  background-color: #10b981; /* เขียว */
+  background: linear-gradient(135deg, #2fc77c 0%, #1da764 100%);
 }
 
 .status-card[data-status="Fail"] {
-  background-color: #ef4444; /* แดง */
+  background: linear-gradient(135deg, #f2797c 0%, #dc5961 100%);
 }
 
-/* รองรับทั้งแบบติดกันและแบบมีช่องว่าง */
 .status-card[data-status="KeepOnStore"],
 .status-card[data-status="Keep on Store"] {
-  background-color: #f59e0b; /* ส้ม */
+  background: linear-gradient(135deg, #e2ae52 0%, #cf922e 100%);
 }
 
 .status-card[data-status="Ship out to repair"] {
-  background-color: #3b82f6; /* ฟ้า */
+  background: linear-gradient(135deg, #5b8cf7 0%, #4475e7 100%);
 }
 
-/* --- ส่วนประกอบภายใน Card --- */
+.status-card[data-status="ShipOut"] {
+  background: linear-gradient(135deg, #454b5b 0%, #454b5b 100%);
+}
 
 .status-title {
-  font-size: 14px;
-  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  opacity: 0.9;
-  margin-bottom: 10px;
+  opacity: 0.96;
 }
 
 .status-value {
-  font-size: 38px;
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.9rem, 2vw, 2.4rem);
   font-weight: 800;
   line-height: 1;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.05em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Responsive Design --- */
-
-/* Tablet: ปรับเป็น 2 คอลัมน์ */
 @media (max-width: 1024px) {
   .status-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 }
 
-/* Mobile: ปรับขนาดตัวเลขลงเล็กน้อยเพื่อให้ดูสมส่วน */
 @media (max-width: 576px) {
   .status-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .status-value {
-    font-size: 32px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .status-card {
-    padding: 15px 10px;
-    min-height: 90px;
+    min-height: 96px;
+    padding: 12px 10px;
+    border-radius: 12px;
+  }
+
+  .status-title {
+    font-size: 0.6rem;
+  }
+
+  .status-value {
+    font-size: 1.55rem;
   }
 }

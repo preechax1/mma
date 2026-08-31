@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    Options -Indexes
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # 1. yield
+    RewriteRule ^summary$ summary.php [L,QSA]
+    RewriteRule ^summary/(.*)$ summary.php [L,QSA]
+
+
+
+    RewriteRule ^yield$ yield.php [L,QSA]
+    RewriteRule ^yield/(.*)$ yield.php [L,QSA]
+
+    RewriteRule ^dashboard$ dashboard.php [L,QSA]
+    RewriteRule ^dashboard/(.*)$ dashboard.php [L,QSA]
+
+    RewriteRule ^record$ record.php [L,QSA]
+    RewriteRule ^record/(.*)$ record.php [L,QSA]
+ 
+    
+</IfModule>

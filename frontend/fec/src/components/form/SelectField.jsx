@@ -29,7 +29,6 @@ export default function SelectField({
     return (
         <div className={styles.fieldWrapper}>
             <label className={styles.label}>{label}</label>
-
             <select
                 name={name}
                 value={value || (options[0]?.id ?? "")}

@@ -1,18 +1,18 @@
 .card {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--color-surface-elevated);
   backdrop-filter: blur(20px);
-  padding: 2.5rem;
-  border-radius: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.05);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--picto-border);
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   transition: all 0.3s;
 }
 
 .card:hover {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 38px rgba(68, 35, 95, 0.1);
 }
 
 .header {
@@ -24,15 +24,15 @@
 .indicator {
   height: 2rem;
   width: 0.375rem;
-  background: #4f46e5;
-  border-radius: 9999px;
-  box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+  background: var(--picto-purple);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 15px rgba(152, 41, 237, 0.3);
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: var(--font-size-lg);
   font-weight: 800;
-  color: #1e293b;
+  color: var(--picto-ink);
   letter-spacing: -0.025em;
   margin: 0;
 }

@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import './styles/design-tokens.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
+  --primary: var(--color-brand);
+  --primary-hover: var(--color-brand-strong);
   --secondary: #0ea5e9;
   --accent: #f43f5e;
-  --background: #f8fafc;
-  --surface: rgba(255, 255, 255, 0.8);
-  --text-main: #1e293b;
-  --text-muted: #64748b;
+  --background: var(--color-page-bg);
+  --surface: var(--color-surface-elevated);
+  --text-main: var(--color-ink);
+  --text-muted: var(--color-muted);
   --border: rgba(226, 232, 240, 0.8);
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -42,16 +43,36 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-lg);
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
 }
 
-/* Input Focus States */
+/* Shared form control base */
+input, select, textarea {
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  font-size: var(--font-size-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 input:focus, select:focus, textarea:focus {
+  outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  box-shadow: var(--shadow-focus);
 }
 
-/* Smooth Transitions */
+input:disabled, select:disabled, textarea:disabled {
+  background-color: var(--color-input-disabled);
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+}
+
 button, input, select, textarea {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

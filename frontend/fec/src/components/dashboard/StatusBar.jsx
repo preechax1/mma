@@ -35,7 +35,7 @@ export default function OverallBarChart({ data }) {
                     <XAxis dataKey="name" stroke="#ccc" />
                     <YAxis stroke="#ccc" />
                     <Tooltip
-                        contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #444" }}
+                        contentStyle={{ backgroundColor: "#568ce2", border: "1px solid #444" }}
                         itemStyle={{ color: "#fff" }}
                     />
                     <Bar dataKey="value">

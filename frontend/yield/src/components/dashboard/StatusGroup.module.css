@@ -1,0 +1,37 @@
+/* Container หลักสำหรับ Grid ของ Pie Charts */
+.factory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  
+  /* กำหนดตัวแปรสีไว้ที่นี่เพื่อให้ Pie Chart เรียกใช้ */
+  --color-good: #10b981;
+  --color-fail: #ef4444;
+  --color-keep-on-store: #f59e0b;
+  --color-repair: #3b82f6;
+  --color-default: #6b7280;
+}
+
+.chart-card {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: white;
+  text-align: center;
+}
+
+.chart-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .factory-grid {
+    grid-template-columns: 1fr;
+  }
+}

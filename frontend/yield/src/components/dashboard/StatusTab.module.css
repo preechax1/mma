@@ -1,0 +1,99 @@
+
+.status-grid {
+  display: grid;
+  /* กำหนดให้มี 4 คอลัมน์เท่าๆ กันในหน้าจอขนาดใหญ่ */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.status-card {
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  color: white;
+  min-height: 110px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+  
+  /* สีพื้นฐานกรณีไม่ตรงกับเงื่อนไขใดๆ */
+  background-color: #334155; 
+}
+
+.status-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* --- การจัดการสีผ่าน Data Attribute (ทดแทน COLORS import) --- */
+
+.status-card[data-status="Good"] {
+  background-color: #10b981; /* เขียว */
+}
+
+.status-card[data-status="Fail"] {
+  background-color: #ef4444; /* แดง */
+}
+
+/* รองรับทั้งแบบติดกันและแบบมีช่องว่าง */
+.status-card[data-status="KeepOnStore"],
+.status-card[data-status="Keep on Store"] {
+  background-color: #f59e0b; /* ส้ม */
+}
+
+.status-card[data-status="Ship out to repair"] {
+  background-color: #3b82f6; /* ฟ้า */
+}
+
+/* --- ส่วนประกอบภายใน Card --- */
+
+.status-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.status-value {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Responsive Design --- */
+
+/* Tablet: ปรับเป็น 2 คอลัมน์ */
+@media (max-width: 1024px) {
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+/* Mobile: ปรับขนาดตัวเลขลงเล็กน้อยเพื่อให้ดูสมส่วน */
+@media (max-width: 576px) {
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .status-value {
+    font-size: 32px;
+  }
+
+  .status-card {
+    padding: 15px 10px;
+    min-height: 90px;
+  }
+}

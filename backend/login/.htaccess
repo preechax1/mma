@@ -13,5 +13,9 @@
     RewriteRule ^member$ member.php [L,QSA]
     RewriteRule ^member/(.*)$ member.php [L,QSA]
 
+    # 3. sections
+    RewriteRule ^sections$ sections.php [L,QSA]
+    RewriteRule ^sections/(.*)$ sections.php [L,QSA]
+
         
 </IfModule>

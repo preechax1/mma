@@ -89,7 +89,7 @@
 
     function model($id){ global $dbh; global $web_base;
 
-        $sql="SELECT spare_id AS id, category, model, description, part_number, minimum_stock, onhand, storage,
+        $sql="SELECT spare_id AS id, category, model, description, for_product, part_number, minimum_stock, onhand, storage,
             CONCAT('".$web_base."','model/ID',spare_id ,'.jpg?v=',UNIX_TIMESTAMP()) AS image
             FROM mma_spare 
             WHERE spare_id = :id

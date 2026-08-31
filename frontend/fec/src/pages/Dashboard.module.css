@@ -1,90 +1,90 @@
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   min-height: calc(100vh - 72px);
-  padding: 16px;
+  padding: 14px;
   box-sizing: border-box;
-  background: #0f172a;
-  color: #f8fafc;
+  background: transparent;
+  color: var(--picto-ink);
 }
 
 .status-section,
 .overall-chart-section,
 .factory-section {
-  background: rgba(15, 23, 42, 0.96);
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 20px rgba(86, 129, 229, 0.858);
+  border: 1px solid rgba(88, 148, 233, 0.873);
 }
 
 .card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
 }
 
 .card-wrapper h3,
 .section-title h2 {
   margin: 0;
-  font-size: 20px;
-  color: #e2e8f0;
+  font-size: 1.05rem;
+  color: var(--picto-ink);
 }
 
 .section-title {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-/* KPI GRID */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 8px;
+  gap: 10px;
 }
 
 .kpi-card {
-  padding: 6px;
-  border-radius: 10px;
+  padding: 8px 6px;
+  border-radius: 12px;
   text-align: center;
 }
 
 .kpi-title {
-  font-size: 12px;
+  font-size: 0.7rem;
   opacity: 0.8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .kpi-value {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
-/* CHART */
 .chart-card {
-  background: #1e293b;
-  border-radius: 14px;
-  padding: 10px;
-
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(55, 93, 146, 0.836);
+  border-radius: 12px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
 .chart-card h2 {
-  text-align: center;
-  margin-bottom: 6px;
-  font-size: 14px;
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
-/* FACTORY GRID (3 อันพอดี) */
 .factory-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   height: 100%;
 }
 
-/* Responsive */
 @media (max-width: 1200px) {
   .factory-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

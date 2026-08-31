@@ -1,0 +1,203 @@
+.container {
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 1100px;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: left;
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #0f172a, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+}
+
+/* ===== FORM GRID ===== */
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* ระยะห่างระหว่าง FormCard ให้ดูโปร่งคลีน */
+}
+
+/* ควบคุมการจัดเรียงภายใน Failure Detail */
+.failureGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* แบ่ง Textarea ซ้าย 2 ส่วน, ขวา 1 ส่วน */
+  gap: 1.5rem;
+}
+
+.textareaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.uploadGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dropzoneWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.4rem;
+}
+
+/* การตกแต่งสไตล์ Input / Select / Textarea */
+.formGrid input,
+.formGrid select,
+.formGrid textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  font-size: 0.95rem;
+  margin-top: 0.3rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.formGrid textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.formGrid input:focus,
+.formGrid select:focus,
+.formGrid textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.formGrid label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* ===== BUTTON SUBMIT ===== */
+
+.submitSection {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitBtn {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+  color: white;
+  padding: 0.75rem 3rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  transition: all 0.2s ease;
+}
+
+.submitBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+}
+
+.submitBtn:active {
+  transform: scale(0.98);
+}
+
+/* ===== LOADING OVERLAY ===== */
+
+.loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== RESPONSIVE FOR MOBILE ===== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .failureGrid {
+    grid-template-columns: 1fr; /* หน้าจอเล็กหดเหลือ 1 คอลัมน์แนวตั้ง */
+    gap: 1rem;
+  }
+
+  .submitSection {
+    width: 100%;
+  }
+
+  .submitBtn {
+    width: 100%;
+  }
+}
