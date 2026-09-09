@@ -58,10 +58,11 @@
     /* =====================================================
     File BASE
     ===================================================== */
-    $base_dir = "D:/Storage_MMA_TE/WebAppData/DataFile/spare/";
+    // Use the Docker-mounted upload directory instead of a Windows host path.
+    $base_dir = __DIR__ . "/../web_upload/mma_store/";
 
     $host       = $_SERVER['HTTP_HOST'];
-    $web_base   = "http://".$host."/web_upload/spare/";
+    $web_base   = "http://".$host."/web_upload/mma_store/";
 
 
 

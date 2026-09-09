@@ -41,12 +41,7 @@
 
         global $dbh;
 
-         $sql="SELECT DISTINCT category, spare_id AS id, model,
-            description,
-            part_number,
-            minimum_stock,
-            onhand,
-            storage 
+         $sql="SELECT DISTINCT category, spare_type
         FROM mma_spare
         ORDER BY category
         ";

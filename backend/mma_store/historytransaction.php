@@ -22,7 +22,7 @@
     ===================================================== */
     try {
         switch ($action) {
-            case 'main': historytransaction($dbh);   break;
+            case 'history_list': historytransaction($dbh);   break;
             case 'upload_file': upload_file($id); break;
             default:
                 sendResponse(400, 'Error', 'Action Fail');
@@ -58,8 +58,8 @@ function historytransaction(){
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // แก้ไขจุดที่ 2: ตั้งชื่อตัวแปรให้ตรงกัน
-    $diskPath = "D:/Storage_MMA_TE/WebAppData/DataFile/spare/store/"; // Path จริงในเครื่อง
-    $webPath = "/web_upload/spare/store/"; // Path ที่ใช้เรียกผ่าน Browser
+    $diskPath = __DIR__ . "/../web_upload/mma_store/store/";
+    $webPath = "/web_upload/mma_store/store/";
 
     foreach ($rows as $key => $row) {
         // ดึง spare_id มาสร้างชื่อ Folder (เช่น ID27)
@@ -96,8 +96,8 @@ function upload_file($id){
         ['order_id' => $id] 
     ];
 
-    $diskPath = "D:/Storage_MMA_TE/WebAppData/DataFile/spare/store/"; 
-    $webPath = "/web_upload/spare/store/"; 
+    $diskPath = __DIR__ . "/../web_upload/mma_store/store/";
+    $webPath = "/web_upload/mma_store/store/";
 
     foreach ($rows as $key => $row) {
         $folderName = "ID" . $row['order_id']; 

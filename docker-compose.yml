@@ -55,6 +55,19 @@ services:
     ports:
       - "5176:5176"
 
+  frontend_mma_store:
+    image: node:20
+    container_name: mma_store_ui
+    working_dir: /app
+    volumes:
+      - ./frontend/mma_store:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+    - "5177:5173"
+
   # Backend (PHP)
   backend:
     build: ./backend

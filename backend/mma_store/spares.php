@@ -51,14 +51,15 @@
         $data = requestData();
 
         $sql = "INSERT INTO mma_spare(
-            category,   model,  part_number,  minimum_stock,  onhand,  storage,  spare_type, active_status, description, for_product ) VALUES(
-            :category,  :model, :part_number, :minimum_stock, :onhand, :storage, :spare_type, 1, :description, :for_product)
+            category,   model, purchasing,  part_number,  minimum_stock,  onhand,  storage,  spare_type, active_status, description, for_product ) VALUES(
+            :category,  :model, :purchasing, :part_number, :minimum_stock, :onhand, :storage, :spare_type, 1, :description, :for_product)
         ";
 
         $stmt = $dbh->prepare($sql);
 
         $stmt->bindParam(':category',       $data['category'],      PDO::PARAM_STR);
         $stmt->bindParam(':model',          $data['model'],         PDO::PARAM_STR);
+        $stmt->bindParam(':purchasing',     $data['purchasing'],    PDO::PARAM_STR);
         $stmt->bindParam(':part_number',    $data['part_number'],   PDO::PARAM_STR);
         $stmt->bindParam(':minimum_stock',  $data['minimum_stock'], PDO::PARAM_INT);
         $stmt->bindParam(':onhand',         $data['onhand'],        PDO::PARAM_INT);
@@ -73,14 +74,16 @@
 
         if(isset($_FILES['image']) && $_FILES['image']['tmp_name'] != ''){
             $uploadDir  = $base_dir . "/model/";
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0775, true);
+            }
             $fileName   = "ID".$id.".jpg";
             $targetFile = $uploadDir.$fileName;
             move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
         }
 
-        response(201,[
-            "message"=>"Spare created",
-            "id"=>$id
+        response(200, "Spare created", [
+            "id" => $id
         ]);
     }
 
@@ -94,7 +97,7 @@
 
         global $dbh; global $web_base;
 
-         $sql="SELECT spare_id AS id, category, model, spare_type, description, part_number, onhand, minimum_stock, storage, for_product,
+         $sql="SELECT spare_id AS id, category, purchasing, model, spare_type, description, part_number, onhand, minimum_stock, storage, for_product,
                 CONCAT('".$web_base."','model/ID',spare_id ,'.jpg?v=',UNIX_TIMESTAMP()) AS image
             FROM mma_spare 
             ORDER BY category
@@ -113,6 +116,7 @@
         if (!$id) response(400, 'Missing ID');
         
         $qty = intval($_POST['ReceiveQuantity'] ?? 0);
+        $order_header = $_POST['order_header'] ?? "";
         $memberID = $_POST['memberID'] ?? null;
 
         if ($qty <= 0) response(400, 'Invalid quantity');
@@ -138,33 +142,42 @@
             ]);
             
             $sql_log = "INSERT INTO mma_spare_transaction(spare_id, order_header, quantity, create_at, created_by) 
-                        VALUES (:id, 'Receive', :qty, NOW(), :user)";
+                        VALUES (:id, :order_header, :qty, NOW(), :user)";
             $stmt_log = $dbh->prepare($sql_log);
             $stmt_log->execute([
-                ':id'   => $id,
-                ':qty'  => $qty,
-                ':user' => $memberID
+                ':id'         => $id,
+                ':order_header' => $order_header,
+                ':qty'        => $qty,
+                ':user'       => $memberID
             ]);
             
             $id_insert = $dbh->lastInsertId();
             
-            if (isset($_FILES['attachments'])) {
+            $uploadedFiles = 0;
+            if (isset($_FILES['attachments']['tmp_name']) && is_array($_FILES['attachments']['tmp_name'])) {
                 $baseDir = $base_dir . "/store/ID" . $id_insert . "/";
                 if (!is_dir($baseDir)) mkdir($baseDir, 0775, true);
 
                 foreach ($_FILES['attachments']['tmp_name'] as $k => $tmp) {
-                    if ($_FILES['attachments']['error'][$k] === 0) {
+                    if ($_FILES['attachments']['error'][$k] === UPLOAD_ERR_OK && is_uploaded_file($tmp)) {
                         
-                        $ext = pathinfo($_FILES['attachments']['name'][$k], PATHINFO_EXTENSION);
-                        $safeFileName = time() . "_" . $k . "." . $ext;
+                        $originalName = basename($_FILES['attachments']['name'][$k]);
+                        $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', $originalName);
+                        $safeFileName = time() . "_" . $k . "_" . $safeName;
                         
-                        move_uploaded_file($tmp, $baseDir . $safeFileName);
+                        if (move_uploaded_file($tmp, $baseDir . $safeFileName)) {
+                            $uploadedFiles++;
+                        }
                     }
                 }
             }
 
             $dbh->commit();
-            response(200, ["message" => "Spare received successfully", "id" => $id]);
+            response(200, "Spare received successfully", [
+                "id" => $id,
+                "transaction_id" => $id_insert,
+                "uploaded_files" => $uploadedFiles
+            ]);
 
         } catch (Exception $e) {
             if ($dbh->inTransaction()) $dbh->rollBack();
@@ -183,6 +196,7 @@
 
         $sql = "UPDATE mma_spare SET
             category        = :category,
+            purchasing      = :purchasing,
             model           = :model,
             part_number     = :part_number,
             minimum_stock   = :minimum_stock,
@@ -197,6 +211,7 @@
       
         $stmt->execute([
             ":category"         => $data['category']        ?? '',
+            ":purchasing"       => $data['purchasing']      ?? '',
             ":model"            => $data['model']           ?? '',
             ":part_number"      => $data['part_number']     ?? '',
             ":minimum_stock"    => $data['minimum_stock']   ?? 0,
@@ -211,6 +226,9 @@
             /* upload image */
         if(isset($_FILES['image']) && $_FILES['image']['tmp_name'] != ''){
             $uploadDir = $base_dir . "/model/";
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0775, true);
+                }
             $fileName  = "ID".$id.".jpg";
             move_uploaded_file($_FILES['image']['tmp_name'],$uploadDir.$fileName);
         }
