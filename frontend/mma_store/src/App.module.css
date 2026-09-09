@@ -1,0 +1,91 @@
+/* src/main.module.css */
+
+/* --- Global Base Styles --- */
+:global {
+    :root {
+        /* Colors */
+        --color-primary: #0056b3;
+        --color-primary-dark: #004494;
+        --color-secondary: #f0f2f5;
+        --color-accent: #ffc107;
+        --color-text-main: #212529;
+        --color-text-secondary: #6c757d;
+        --color-border: #dee2e6;
+        --color-white: #ffffff;
+        --color-danger: #dc3545;
+
+        /* Spacing & Others */
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --spacing-xl: 32px;
+        --radius-md: 8px;
+        --font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: var(--font-family);
+        background-color: var(--color-secondary);
+        color: var(--color-text-main);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    button {
+        cursor: pointer;
+        font-family: inherit;
+    }
+}
+
+/* --- Reusable Utility Classes (Local) --- */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.pageHeader {
+    margin: var(--spacing-xl) 0;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--spacing-md);
+}
+
+.pageHeader h2 {
+    font-size: 2rem;
+    color: var(--color-primary-dark);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    transition: opacity 0.2s;
+}
+
+.btnPrimary {
+    composes: btn;
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btnPrimary:hover {
+    opacity: 0.9;
+}
+
+.textCenter {
+    text-align: center;
+}

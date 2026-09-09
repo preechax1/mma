@@ -1,0 +1,367 @@
+/* src/pages/Spare.module.css */
+
+/* ─── Layout ─── */
+.pageContainer {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.75rem 2.25rem 2.5rem;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #1e293b;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef5f2 100%);
+    animation: pageFadeIn 0.45s ease-out forwards;
+}
+
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Ambient Glows ─── */
+.bgGlow1, .bgGlow2 {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(130px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bgGlow1 {
+    width: 520px; height: 520px;
+    top: -100px; right: -100px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.09) 0%, transparent 70%);
+}
+
+.bgGlow2 {
+    width: 460px; height: 460px;
+    bottom: -100px; left: -80px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+}
+
+/* ─── Page Header ─── */
+.pageHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 1.15rem 1.35rem;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.headerIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #0f766e;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(15, 118, 110, 0.25);
+    flex-shrink: 0;
+}
+
+.pageTitle {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0.2rem 0 0;
+}
+
+.btnPrimary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #0f766e;
+    color: white;
+    padding: 0.68rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: none;
+    font-family: inherit;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.22);
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+}
+
+.btnPrimary:hover {
+    transform: translateY(-2px);
+    background: #115e59;
+    box-shadow: 0 8px 18px rgba(15, 118, 110, 0.3);
+}
+
+.btnPrimary:active { transform: translateY(0); }
+
+/* ─── Stats Strip ─── */
+.statsStrip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 1rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.35rem;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.045);
+    position: relative;
+    z-index: 1;
+    flex-wrap: nowrap;
+}
+
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.statDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dotBlue   { background: #6366f1; }
+.dotGreen  { background: #10b981; }
+.dotYellow { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
+.dotRed    { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.15); animation: dotPulse 1.5s ease-in-out infinite; }
+
+@keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
+    50%       { box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.08); }
+}
+
+.statIcon { color: #94a3b8; }
+
+.statVal {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.statLbl {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.statDivider {
+    display: none;
+}
+
+/* ─── Action Bar ─── */
+.actionBar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+}
+
+.searchGroup {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0.95rem;
+    color: #94a3b8;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.72rem 2.4rem 0.72rem 2.5rem;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 9px;
+    font-size: 0.9rem;
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: inherit;
+}
+
+.searchInput::placeholder { color: #cbd5e1; }
+
+.searchInput:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+    background: white;
+}
+
+.clearSearch {
+    position: absolute;
+    right: 0.8rem;
+    background: #f1f5f9;
+    border: none;
+    color: #64748b;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.clearSearch:hover { background: #e2e8f0; color: #334155; }
+
+.resultCount {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-right: 0.5rem;
+}
+
+/* ─── Loading ─── */
+.flexCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 1.25rem;
+}
+
+.loadingRing {
+    display: inline-block;
+    position: relative;
+    width: 56px; height: 56px;
+}
+
+.loadingRing div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 46px; height: 46px;
+    margin: 5px;
+    border: 4px solid transparent;
+    border-radius: 50%;
+    animation: ringAnim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.loadingRing div:nth-child(1) { border-top-color: #10b981; animation-delay: -0.45s; }
+.loadingRing div:nth-child(2) { border-top-color: #6366f1; animation-delay: -0.3s; }
+.loadingRing div:nth-child(3) { border-top-color: #3b82f6; animation-delay: -0.15s; }
+.loadingRing div:nth-child(4) { border-top-color: transparent; }
+
+@keyframes ringAnim {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ─── Error ─── */
+.errorMessage {
+    background: rgba(254, 242, 242, 0.9);
+    color: #ef4444;
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    border: 1px solid #fecaca;
+    text-align: center;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    backdrop-filter: blur(10px);
+}
+
+.errorIcon { opacity: 0.7; }
+.errorMessage p { margin: 0; font-size: 0.9rem; font-weight: 500; }
+
+.btnRetry {
+    background: white;
+    color: #ef4444;
+    border: 1px solid #fca5a5;
+    padding: 0.55rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btnRetry:hover { background: #fee2e2; border-color: #ef4444; }
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+    .pageContainer { padding: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+    .pageContainer { padding: 1rem; }
+    .pageHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .searchGroup { max-width: 100%; }
+    .statsStrip { padding: 0.75rem 1rem; }
+
+    .pageHeader,
+    .actionBar {
+        padding: 0.85rem;
+    }
+
+    .statsStrip {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.35rem;
+    }
+
+    .statItem {
+        min-width: 145px;
+    }
+}

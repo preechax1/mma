@@ -1,0 +1,98 @@
+/* =========================================== */
+/* MAIN STRUCTURE */
+/* =========================================== */
+
+.layout {
+  --picto-purple: var(--color-brand);
+  --picto-purple-dark: var(--color-brand-strong);
+  --picto-purple-soft: var(--color-brand-soft);
+  --picto-ink: var(--color-ink);
+  --picto-muted: var(--color-muted);
+  --picto-border: var(--color-border);
+  --picto-surface: var(--color-surface);
+
+  background: linear-gradient(135deg, #ffffff 0%, #fbf8ff 55%, #f5fbff 100%);
+  color: var(--picto-ink);
+
+  /* เว้นระยะ padding-top เท่ากับความสูงของ Navbar Desktop (60px) */
+  padding-top: 60px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  flex: 1;
+  gap: 12px;
+  padding: 0 16px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 12px 30px rgba(68, 35, 95, 0.06);
+  border: 1px solid rgba(158, 126, 183, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* =========================================== */
+/* RESPONSIVE MEDIA QUERIES */
+/* =========================================== */
+
+@media (max-width: 991px) {
+  .layout {
+    /* ปรับ padding-top ให้ตรงกับความสูง Navbar บน Mobile (76px) */
+    padding-top: 76px;
+  }
+
+  .wrapper {
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 10px;
+  }
+
+  .content {
+    padding: 14px;
+    border-radius: 8px;
+  }
+}
+
+/* =========================================== */
+/* GLOBAL UTILITIES */
+/* =========================================== */
+
+.modalOverlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999 !important;
+}

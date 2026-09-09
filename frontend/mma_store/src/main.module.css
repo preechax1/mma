@@ -1,0 +1,31 @@
+/* src/main.module.css */
+:global {
+    html,
+    body,
+    #root {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --color-primary: #0056b3;
+        --color-primary-dark: #004494;
+        --color-secondary: #f0f2f5;
+        --color-text-main: #212529;
+        --color-text-secondary: #6c757d;
+        --color-border: #dee2e6;
+        --color-white: #ffffff;
+        --color-danger: #dc3545;
+        --radius-md: 12px;
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --font-size-sm: 14px;
+        --font-size-base: 16px;
+    }
+
+    body {
+        background-color: var(--color-secondary);
+        font-family: sans-serif;
+    }
+}

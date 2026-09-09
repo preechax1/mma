@@ -1,0 +1,304 @@
+/* src/components/Store/FilterModal.module.css */
+
+/* ─── Overlay & Backdrop ─── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation: backdropFade 0.3s ease-out;
+}
+
+@keyframes backdropFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ─── Side Panel ─── */
+.panel {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* ─── Header ─── */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    background: white;
+    flex-shrink: 0;
+}
+
+.headerTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.headerIcon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.1));
+    color: #6366f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.closeButton {
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    color: #94a3b8;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fecaca;
+}
+
+/* ─── Content Area ─── */
+.content {
+    flex: 1;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: #f8fafc;
+    /* พื้นหลังสีเทาอ่อนช่วยให้การ์ดขาวเด่นขึ้น */
+}
+
+/* Scrollbar สวยๆ */
+.content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+/* Filter Group (Card Styling) */
+.filterGroup {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+
+.filterGroup:hover {
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+/* ─── Category & Model Items ─── */
+.checkboxLabel,
+.modelItem {
+    display: flex;
+    align-items: flex-start;
+    /* แก้ปัญหาโดนบัง: ให้เริ่มจากด้านบนเสมอ */
+    gap: 0.85rem;
+    width: 100%;
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    box-sizing: border-box;
+    transition: background 0.2s;
+}
+
+.checkboxLabel:hover {
+    background: rgba(99, 102, 241, 0.03);
+}
+
+/* Custom Checkbox */
+.checkboxInput {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 2px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.checkboxInput:checked {
+    background: #6366f1;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.checkboxInput:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 4px;
+    height: 8px;
+    border: 2px solid white;
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(45deg);
+}
+
+/* Text Management */
+.labelText,
+.modelLabelText {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 600;
+    color: #1e293b;
+    word-break: break-word;
+    /* ป้องกันข้อความทับตัวเลข */
+}
+
+.itemCount {
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+/* ─── Model List (Nested) ─── */
+.modelList {
+    background: #fafbfc;
+    border-top: 1px solid #f1f5f9;
+}
+
+.modelItem {
+    padding-left: 3rem;
+    /* ดันเข้าไปให้เห็นลำดับชัดเจน */
+    border-bottom: 1px solid rgba(241, 245, 249, 0.6);
+}
+
+.modelItem:last-child {
+    border-bottom: none;
+}
+
+.modelItem .modelLabelText {
+    font-weight: 500;
+    color: #475569;
+    font-size: 0.9rem;
+}
+
+.modelItem:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+/* ─── Footer ─── */
+.footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 0.85rem;
+    background: white;
+    flex-shrink: 0;
+}
+
+.btn {
+    height: 48px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clearBtn {
+    background: #ffffff;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.clearBtn:hover {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+.applyBtn {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.applyBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.applyBtn:active {
+    transform: translateY(0);
+}

@@ -1,0 +1,185 @@
+/* src/components/NavBar.module.css */
+
+.header {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    height: 72px;
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+    min-width: 210px;
+}
+
+.brand:hover {
+    transform: translateY(-1px);
+}
+
+.brandIcon {
+    color: white;
+    background: #0f766e;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    box-shadow: 0 5px 12px rgba(15, 118, 110, 0.2);
+}
+
+.brandText { display: flex; flex-direction: column; gap: 1px; }
+
+.brandName {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+}
+
+.brandTagline { color: #94a3b8; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.navLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.52rem 0.8rem;
+    border-radius: 9px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.navLink:hover {
+    color: #1e293b;
+    background: rgba(241, 245, 249, 0.8);
+}
+
+.navLink.active {
+    color: #0f766e;
+    background: white;
+    font-weight: 600;
+}
+
+.utility {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.userBlock { display: flex; align-items: center; gap: 0.5rem; }
+.userAvatar { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #ccfbf1; color: #0f766e; font-size: 0.78rem; font-weight: 800; }
+
+.greeting {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+}
+
+.greeting small { font-size: 0.62rem; color: #94a3b8; }
+
+.userName {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.settingsIcon {
+    color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.roleBadge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.28rem 0.55rem; border-radius: 999px; background: #fef3c7; color: #92400e; font-size: 0.68rem; font-weight: 800; }
+
+.settingsIcon:hover {
+    color: #1e293b;
+    transform: rotate(30deg);
+}
+
+.logoutButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem 1rem;
+    border-radius: 9px;
+    cursor: pointer;
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.menuToggle { display: none; border: 0; background: transparent; color: #475569; cursor: pointer; padding: 0.35rem; }
+
+.logoutButton:hover {
+    background: #fef2f2;
+    color: #ef4444;
+    border-color: #fecaca;
+    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.05);
+}
+
+.logoutIcon {
+    transition: transform 0.2s ease;
+}
+
+.logoutButton:hover .logoutIcon {
+    transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+    .headerContent {
+        padding: 0 1rem;
+    }
+    
+    .brand { min-width: 0; }
+    .brandTagline, .greeting, .roleBadge { display: none; }
+    .nav { display: none; position: absolute; top: calc(100% + 8px); left: 1rem; right: 1rem; flex-direction: column; align-items: stretch; padding: 0.5rem; background: white; box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12); }
+    .navOpen { display: flex; }
+    .navLink { justify-content: flex-start; padding: 0.75rem; font-size: 0.88rem; }
+    .menuToggle { display: block; }
+    .header { position: sticky; }
+    
+    .greeting {
+        display: none;
+    }
+}

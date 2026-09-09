@@ -1,0 +1,261 @@
+/* src/components/Spare/SpareTable.module.css */
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.tableWrapper {
+    width: 100%;
+    max-width: 100%;
+}
+
+.adminTable {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.adminTable th,
+.adminTable td {
+    width: auto;
+    padding: 8px;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.adminTable th:nth-child(1) { width: 8%; }
+.adminTable th:nth-child(2) { width: 7%; }
+.adminTable th:nth-child(3) { width: 11%; }
+.adminTable th:nth-child(4) { width: 12%; }
+.adminTable th:nth-child(5) { width: 17%; }
+.adminTable th:nth-child(6) { width: 11%; }
+.adminTable th:nth-child(7) { width: 7%; }
+.adminTable th:nth-child(8) { width: 8%; }
+.adminTable th:nth-child(9) { width: 9%; }
+.adminTable th:nth-child(10) { width: 7%; }
+.adminTable th:nth-child(11) { width: 13%; }
+
+/* ─── Header Row ─── */
+.adminTable thead tr:first-child {
+    background: #134e4a;
+}
+
+.adminTable thead tr:first-child th {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 8px;
+    border: none;
+}
+
+/* ─── Filter Row ─── */
+.filterRow th {
+    background: #f8fafc !important;
+    padding: 0.55rem 0.85rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-size: 0 !important; /* hide inherited text */
+}
+
+.filterRow input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.8rem;
+    color: #1e293b;
+    background: white;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filterRow input::placeholder { color: #cbd5e1; }
+
+.filterRow input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
+}
+
+/* ─── Body Cells ─── */
+.adminTable td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.045);
+    font-size: 0.875rem;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.adminTable tbody tr {
+    transition: background 0.18s ease;
+}
+
+.adminTable tbody tr:hover td {
+    background: #f0fdfa;
+}
+
+.adminTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ─── Image Cell ─── */
+.imageCell {
+    text-align: center;
+}
+
+.imageWrapper {
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.tableImg {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.imagePlaceholder {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #94a3b8;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.55rem;
+    cursor: pointer;
+}
+
+.clickable { cursor: pointer; }
+
+.clickable:hover {
+    transform: scale(1.12);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ─── Description Cell ─── */
+.descriptionCell {
+    color: #64748b;
+}
+
+/* ─── Status Badge ─── */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: normal;
+}
+
+.badgeOk {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badgeLow {
+    background: rgba(239, 68, 68, 0.09);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* ─── Action Buttons ─── */
+.actionButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btnEdit {
+    background: rgba(99, 102, 241, 0.09);
+    color: #6366f1;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.btnEdit:hover {
+    background: #6366f1;
+    color: white;
+    border-color: #6366f1;
+    transform: scale(1.05);
+}
+
+.btnDelete {
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.btnDelete:hover {
+    background: #dc2626;
+    color: white;
+    border-color: #dc2626;
+    transform: scale(1.05);
+}
+
+.btnReceive {
+    background: rgba(245, 158, 11, 0.09);
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.btnReceive:hover {
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
+    transform: scale(1.05);
+}
+
+/* ─── Image Preview Modal ─── */
+.modalImageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.previewImgFull {
+    max-width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}

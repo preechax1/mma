@@ -1,0 +1,250 @@
+.spareForm {
+    --primary: #0f766e;
+    --primary-hover: #115e59;
+    --primary-soft: #ecfdf5;
+    --text-main: #0f172a;
+    --text-sub: #64748b;
+    --border-color: #d8e3e8;
+    --danger: #ef4444;
+    --radius: 16px;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: var(--radius);
+    display: grid;
+    grid-template-columns: minmax(190px, 220px) minmax(0, 1fr);
+    gap: 32px;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.imageSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    align-self: start;
+    padding: 16px;
+    background: linear-gradient(160deg, #f0fdfa 0%, #f8fafc 100%);
+    border-radius: var(--radius);
+    border: 1px solid #ccfbf1;
+    box-shadow: 0 12px 28px rgba(15, 118, 110, 0.08);
+}
+
+.imagePreviewWrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #cce8e2;
+    box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.7), 0 8px 18px rgba(15, 118, 110, 0.1);
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagePreviewWrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.fileInput {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: var(--text-sub);
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+.fileInput::file-selector-button {
+    margin-right: 8px;
+    padding: 8px 11px;
+    border: 1px solid #99f6e4;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0f766e;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.fileInput::file-selector-button:hover {
+    background: var(--primary-soft);
+    border-color: #5eead4;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 16px;
+    min-width: 0;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.formGroupFull {
+    grid-column: span 2;
+}
+
+.formGroup label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-left: 2px;
+    letter-spacing: 0.01em;
+}
+
+.formGroup textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    font: inherit;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    resize: vertical;
+    color: var(--text-main);
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formGroup input,
+.formGroup select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--text-main);
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formGroup select {
+    cursor: pointer;
+}
+
+.formGroup input:hover,
+.formGroup select:hover {
+    border-color: #cbd5e1;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.13);
+    background: white;
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* สถานะ Stock ต่ำ */
+.lowStock {
+    border-color: var(--danger) !important;
+    background-color: #fff5f5 !important;
+    color: var(--danger) !important;
+    font-weight: 600;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+.formActions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.submitBtn {
+    background: var(--primary);
+    color: white;
+    min-height: 44px;
+    padding: 11px 26px;
+    border-radius: 10px;
+    border: none;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2);
+}
+
+.submitBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(15, 118, 110, 0.28);
+}
+
+.submitBtn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+    .spareForm {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .imageSection {
+        width: min(100%, 260px);
+        margin: 0 auto;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .formGroupFull {
+        grid-column: span 1;
+    }
+
+    .formActions {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 520px) {
+    .spareForm {
+        padding: 0;
+    }
+
+    .imageSection {
+        padding: 12px;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .formGroupFull,
+    .formActions {
+        grid-column: span 1;
+    }
+
+    .submitBtn {
+        width: 100%;
+    }
+}
