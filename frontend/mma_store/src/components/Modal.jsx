@@ -7,20 +7,14 @@ const Modal = ({ open, onClose, children, title = "Modal" }) => {
 
     return createPortal(
         <div className="modal-overlay" onClick={onClose}>
-            <div
-                className="modal-container"
-                onClick={(e) => e.stopPropagation()}
-            >
+            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <h2>{title}</h2>
                     <button className="modal-close" onClick={onClose}>
                         ✕
                     </button>
                 </div>
-
-                <div className="modal-body">
-                    {children}
-                </div>
+                <div className="modal-body">{children}</div>
             </div>
         </div>,
         document.body

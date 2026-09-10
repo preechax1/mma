@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
-import Modal from "../ui/Modal";
+import Modal from "../Modal";
 import ReceiveSpareForm from "./ReceiveSpareForm";
-import { Pencil, Trash2, PackagePlus } from "lucide-react";
+import { Pencil, PackagePlus } from "lucide-react";
 import styles from "./SpareTable.module.css";
 
 const ImageThumbnail = ({ src, alt, onClick }) => {
@@ -30,7 +30,7 @@ const ImageThumbnail = ({ src, alt, onClick }) => {
     );
 };
 
-const SpareTable = ({ spares = [], onEdit, onDelete, onReceive }) => {
+const SpareTable = ({ spares = [], onEdit, onReceive, memberID }) => {
     const [receiveModalOpen, setReceiveModalOpen] = useState(false);
     const [selectedSpareToReceive, setSelectedSpareToReceive] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
@@ -197,11 +197,6 @@ const SpareTable = ({ spares = [], onEdit, onDelete, onReceive }) => {
                                                 onClick={() => onEdit(item)}
                                                 title="Edit"
                                             ><Pencil size={25} /></button>
-                                            {/* <button
-                                                className={`${styles.btn} ${styles.btnDelete}`}
-                                                onClick={() => onDelete(item.id)}
-                                                title="Delete"
-                                            ><Trash2 size={14} /></button> */}
                                             <button
                                                 className={`${styles.btn} ${styles.btnReceive}`}
                                                 onClick={() => {
@@ -232,6 +227,7 @@ const SpareTable = ({ spares = [], onEdit, onDelete, onReceive }) => {
             >
                 <ReceiveSpareForm
                     spare={selectedSpareToReceive}
+                    memberID={memberID}
                     onSave={(data) => {
                         onReceive(selectedSpareToReceive.id, data);
                         setReceiveModalOpen(false);

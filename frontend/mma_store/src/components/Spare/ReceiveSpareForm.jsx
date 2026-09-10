@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Download, Package, Layers, Hash, PlusSquare, Paperclip, X } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
 import styles from "./ReceiveSpareForm.module.css";
 
-const ReceiveSpareForm = ({ spare, onSave, onCancel }) => {
+const ReceiveSpareForm = ({ spare, memberID, onSave, onCancel }) => {
     const [quantity, setQuantity] = useState("");
     const [orderHeader, setOrderHeader] = useState("");
     const [attachments, setAttachments] = useState(null);
-    const { user } = useAuth();
 
     const category = spare?.category || "";
     const model = spare?.model || "";
@@ -31,7 +29,7 @@ const ReceiveSpareForm = ({ spare, onSave, onCancel }) => {
         if (spare?.minimum_stock) { fd.append("minimum_stock", spare.minimum_stock); }
         if (spare?.storage) { fd.append("storage", spare.storage); }
         if (spare?.spare_type) { fd.append("spare_type", spare.spare_type); }
-        if (user && user.memberID) { fd.append("memberID", user.memberID); }
+        if (memberID) { fd.append("memberID", memberID); }
 
         if (attachments && attachments.length > 0) {
             Array.from(attachments).forEach((file) => { fd.append("attachments[]", file); });

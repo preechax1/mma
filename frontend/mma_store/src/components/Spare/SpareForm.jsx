@@ -1,53 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../../services/SpareService";
-import { useAuth } from "../../context/AuthContext";
 
 // เปลี่ยนการ Import CSS เป็น Module
 import styles from "./SpareForm.module.css";
 
+const getInitialForm = (spare) => ({
+    category: spare?.category || "",
+    model: spare?.model || "",
+    purchasing: spare?.purchasing || "",
+    part_number: spare?.part_number || "",
+    minimum_stock: spare?.minimum_stock || 0,
+    onhand: spare?.onhand || 0,
+    storage: spare?.storage || "",
+    description: spare?.description || "",
+    for_product: spare?.for_product || "",
+    spare_type: spare?.spare_type || "",
+    image: null
+});
+
 const SpareForm = ({ spare, onSave }) => {
     const [categories, setCategories] = useState([]);
-    const [imagePreview, setImagePreview] = useState(null);
-    const { user } = useAuth();
-
-    const [form, setForm] = useState({
-        category: "",
-        model: "",
-        purchasing: "",
-        part_number: "",
-        minimum_stock: 0,
-        onhand: 0,
-        storage: "",
-        description: "",
-        for_product: "",
-        spare_type: "Spare",
-        image: null
-    });
+    const [imagePreview, setImagePreview] = useState(spare?.image || null);
+    const [form, setForm] = useState(() => getInitialForm(spare));
 
     useEffect(() => {
-        loadCategories();
-        if (spare) {
-            setForm({
-                category: spare.category || "",
-                model: spare.model || "",
-                purchasing: spare.purchasing || "",
-                part_number: spare.part_number || "",
-                minimum_stock: spare.minimum_stock || 0,
-                onhand: spare.onhand || 0,
-                storage: spare.storage || "",
-                description: spare.description || "",
-                for_product: spare.for_product || "",
-                spare_type: spare.spare_type || "",
-                image: null
-            });
-            setImagePreview(spare.image);
-        }
-    }, [spare]);
+        let isMounted = true;
 
-    const loadCategories = async () => {
-        const data = await getCategories();
-        setCategories(data);
-    };
+        getCategories().then((data) => {
+            if (isMounted) setCategories(data);
+        });
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;

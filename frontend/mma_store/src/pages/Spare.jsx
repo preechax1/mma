@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from "react";
-import Modal from "../components/ui/Modal";
+import Modal from "../components/Modal";
 import SpareForm from "../components/Spare/SpareForm";
 import SpareTable from "../components/Spare/SpareTable";
 import { useSpare } from "../hooks/SpareHook";
+import { useAuth } from "../context/AuthContext";
 import {
     Search, Plus, Database, AlertCircle, X,
     Package, Layers, AlertTriangle, CheckCircle
@@ -10,7 +11,8 @@ import {
 import styles from "./Spare.module.css";
 
 const Spare = () => {
-    const { spares, loading, error, add, update, receive, remove } = useSpare();
+    const { spares, loading, error, add, update, receive } = useSpare();
+    const { user } = useAuth();
 
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState(null);
@@ -171,13 +173,13 @@ const Spare = () => {
             <SpareTable
                 spares={filteredSpares}
                 onEdit={(s) => { setEditing(s); setOpen(true); }}
-                onDelete={(id) => remove(id)}
                 onReceive={handleReceive}
+                memberID={user?.memberID}
             />
 
             {/* ─── Add/Edit Modal ─── */}
             <Modal open={open} onClose={() => { setOpen(false); setEditing(null); }}>
-                <SpareForm spare={editing} onSave={handleSave} />
+                <SpareForm key={editing?.id ?? "new"} spare={editing} onSave={handleSave} />
             </Modal>
         </div>
     );
