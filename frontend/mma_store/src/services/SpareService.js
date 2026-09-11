@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "./apiConfig";
+import { uploadFile, uploadSpareImage } from "./FileService";
 const base = `${API_BASE_URL}/spares`;
 
 const requestBody = (payload) => {
@@ -10,6 +11,16 @@ const requestBody = (payload) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   };
+};
+
+const withoutImage = (payload) => {
+  if (!(payload instanceof FormData)) return payload;
+
+  const data = new FormData();
+  for (const [key, value] of payload.entries()) {
+    if (key !== "image") data.append(key, value);
+  }
+  return data;
 };
 
 const parseResponse = async (res) => {
@@ -72,12 +83,18 @@ export const getCategories = async () => {
 export const createSpare = async (spare) => {
   try {
     validateSparePayload(spare);
+    const image = spare instanceof FormData ? spare.get("image") : null;
+    const spareData = withoutImage(spare);
     const res = await fetch(`${base}/create`, {
       method: "POST",
-      ...requestBody(spare),
+      ...requestBody(spareData),
     });
 
-    return await parseResponse(res);
+    const result = await parseResponse(res);
+    if (image instanceof File && result?.data?.id) {
+      await uploadSpareImage(result.data.id, image);
+    }
+    return result;
   } catch (error) {
     console.error("Error creating Spare:", error);
     throw error;
@@ -113,12 +130,18 @@ export const updateSpare = async (id, spare) => {
   try {
     if (!id) throw new Error("Missing spare ID");
     validateSparePayload(spare);
+    const image = spare instanceof FormData ? spare.get("image") : null;
+    const spareData = withoutImage(spare);
     const res = await fetch(`${base}/update/${id}`, {
       method: "POST",
-      ...requestBody(spare),
+      ...requestBody(spareData),
     });
 
-    return await parseResponse(res);
+    const result = await parseResponse(res);
+    if (image instanceof File) {
+      await uploadSpareImage(id, image);
+    }
+    return result;
   } catch (error) {
     console.error(`Error updating Spare id ${id}:`, error);
     throw error;
@@ -140,12 +163,24 @@ const validateSparePayload = (payload) => {
 ========================= */
 export const receiveSpare = async (id, data) => {
   try {
+    const attachments = data instanceof FormData
+      ? data.getAll("attachments[]")
+      : [];
     const res = await fetch(`${base}/receive/${id}`, {
       method: "POST",
       ...requestBody(data),
     });
 
-    return await parseResponse(res);
+    const result = await parseResponse(res);
+    const transactionId = result?.data?.transaction_id;
+    if (transactionId) {
+      for (const file of attachments) {
+        if (file instanceof File) {
+          await uploadFile(transactionId, file);
+        }
+      }
+    }
+    return result;
   } catch (error) {
     console.error(`Error receiving Spare id ${id}:`, error);
     throw error;

@@ -58,11 +58,9 @@
     /* =====================================================
     File BASE
     ===================================================== */
-    // Use the Docker-mounted upload directory instead of a Windows host path.
-    $base_dir = __DIR__ . "/../web_upload/mma_store/";
-
-    $host       = $_SERVER['HTTP_HOST'];
-    $web_base   = "http://".$host."/web_upload/mma_store/";
+    // db.php supplies the environment-specific root for Docker and production.
+    $base_dir = rtrim($base_dir, '/\\') . '/mma_store/';
+    $web_base = rtrim($web_base, '/\\') . '/mma_store/';
 
 
 

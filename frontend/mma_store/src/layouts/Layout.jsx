@@ -2,11 +2,9 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import styles from "./Layout.module.css";
-import { useAuth } from "../context/AuthContext";
 
-export default function Layout() {
+export default function Layout({ user, logout, onUserChange }) {
   const [isAuthChecking, setIsAuthChecking] = React.useState(true);
-  const { user } = useAuth();
 
   React.useEffect(() => {
     const checkAuth = async () => {
@@ -33,6 +31,7 @@ export default function Layout() {
             token: token,
           };
           localStorage.setItem("user", JSON.stringify(payload));
+          onUserChange(payload);
 
           // ลบ Token ออกจาก URL และ "ไม่ต้องโหลดหน้าใหม่"
           const cleanUrl = window.location.origin + window.location.pathname;
@@ -62,16 +61,7 @@ export default function Layout() {
     checkAuth();
   }, []);
 
-  React.useEffect(() => {
-    if (!isAuthChecking && !user) {
-      const loginUrl =
-        import.meta.env.VITE_LOGIN_URL || "http://localhost:5175";
-      const currentUrl = window.location.origin + window.location.pathname;
-      window.location.href = `${loginUrl}/?logout=1&redirect=${encodeURIComponent(currentUrl)}`;
-    }
-  }, [isAuthChecking, user]);
-
-  if (isAuthChecking || !user) {
+  if (isAuthChecking) {
     return (
       <div style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
         กำลังยืนยันตัวตน...
@@ -81,7 +71,7 @@ export default function Layout() {
 
   return (
     <div className={styles.layout}>
-      <Navbar />
+      <Navbar user={user} logout={logout} />
       <div className={styles.wrapper}>
         <main className={styles.content}>
           <Outlet />

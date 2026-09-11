@@ -1,22 +1,61 @@
-import React, { useState, useMemo } from "react";
-import Modal from "../components/Modal";
-import SpareForm from "../components/Spare/SpareForm";
-import SpareTable from "../components/Spare/SpareTable";
-import { useSpare } from "../hooks/SpareHook";
-import { useAuth } from "../context/AuthContext";
+import React, { useEffect, useState, useMemo } from "react";
+import Modal            from "../components/Modal";
+import SpareForm        from "../components/Spare/SpareForm";
+import SpareTable       from "../components/Spare/SpareTable";
+import {
+    getSpareList,
+    createSpare,
+    updateSpare,
+    receiveSpare
+} from "../services/SpareService";
 import {
     Search, Plus, Database, AlertCircle, X,
     Package, Layers, AlertTriangle, CheckCircle
 } from "lucide-react";
 import styles from "./Spare.module.css";
 
-const Spare = () => {
-    const { spares, loading, error, add, update, receive } = useSpare();
-    const { user } = useAuth();
-
+const Spare = ({ user }) => {
+    const [spares, setSpares] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState(null);
     const [search, setSearch] = useState("");
+
+    const loadData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            setSpares(await getSpareList());
+        } catch (err) {
+            console.error("Failed to load spares:", err);
+            setError(err.response?.data?.detail || err.message || "Failed to load spares");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const add = async (data) => {
+        const result = await createSpare(data);
+        await loadData();
+        return result;
+    };
+
+    const update = async (id, data) => {
+        const result = await updateSpare(id, data);
+        await loadData();
+        return result;
+    };
+
+    const receive = async (id, data) => {
+        const result = await receiveSpare(id, data);
+        await loadData();
+        return result;
+    };
 
     const handleSave = async (data) => {
         try {

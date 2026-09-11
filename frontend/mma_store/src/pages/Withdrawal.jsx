@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Check, AlertCircle, Package, Tag, Hash, DollarSign, FileText } from "lucide-react";
 import { getModelById, updateUserSpare } from "../services/WithdrawalService";
-import { useAuth } from "../context/AuthContext";
 import styles from "./Withdrawal.module.css";
 
-const Withdrawal = () => {
+const Withdrawal = ({ user }) => {
     const { id } = useParams();
-    const { user } = useAuth();
-
     const [model, setModel] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

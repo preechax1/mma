@@ -21,19 +21,16 @@ import {
     Trash2,
     Plus
 } from "lucide-react";
-import { getHistoryList, deleteHistoryFile, uploadHistoryFile, getHistoryFiles } from "../services/HistoryTransaction";
-import { useAuth } from "../context/AuthContext";
-import { API_BASE_URL } from "../services/apiConfig";
+import { getHistoryList } from "../services/HistoryTransaction";
+import { deleteFile, fetchFilesByRecord, uploadFile } from "../services/FileService";
 import styles from "./HistoryTransaction.module.css";
 
-const HistorySpareTransaction = () => {
-    const { user } = useAuth();
+const HistorySpareTransaction = ({ user }) => {
     const [historyData, setHistoryData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [activeFilter, setActiveFilter] = useState("all");
     const [refreshing, setRefreshing] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [uploadingId, setUploadingId] = useState(null);
     const [currentFiles, setCurrentFiles] = useState([]);
@@ -149,17 +146,22 @@ const HistorySpareTransaction = () => {
         );
     };
 
-    const getBackendOrigin = () => {
-        try {
-            return new URL(API_BASE_URL, window.location.origin).origin;
-        } catch {
-            return window.location.origin;
-        }
+    const getBackendBaseUrl = () => window.location.origin;
+
+    const getRecordId = (item) => (
+        item?.id || item?.order_id || item?.spare_id || item?.history_id ||
+        item?.transaction_id || item?.ID || item?.detail_id
+    );
+
+    const getFileName = (file) => {
+        if (typeof file === "string") return file.split("/").pop().split("?")[0];
+        return file?.name || file?.file_name || "Attached file";
     };
 
-    const getFileUrl = (item, filename) => {
-        const baseUrl = getBackendOrigin();
-        const fileString = filename && typeof filename === 'string' ? filename.trim() : '';
+    const getFileUrl = (item, file) => {
+        const baseUrl = getBackendBaseUrl();
+        const directUrl = typeof file === "object" ? file?.file_url || file?.url : file;
+        const fileString = typeof directUrl === "string" ? directUrl.trim() : "";
 
         if (fileString.startsWith('http')) {
             return fileString;
@@ -169,7 +171,7 @@ const HistorySpareTransaction = () => {
             return `${baseUrl}${fileString}`;
         }
 
-        let fileToUse = fileString;
+        let fileToUse = getFileName(file);
         if (!fileToUse && item?.image && typeof item.image === 'string') {
             const image = item.image.trim();
             if (image.startsWith('http')) return image;
@@ -183,7 +185,7 @@ const HistorySpareTransaction = () => {
 
         if (!fileToUse) return null;
 
-        const folderId = item?.order_id || item?.spare_id || item?.id;
+        const folderId = getRecordId(item);
         const folderName = `ID${folderId || 'unknown'}`;
         return `${baseUrl}/web_upload/mma_store/store/${folderName}/${fileToUse}`;
     };
@@ -203,7 +205,7 @@ const HistorySpareTransaction = () => {
             }
 
             // Priority 2: Fetch list of files from the dedicated API if real_files is missing
-            const files = await getHistoryFiles(item.id);
+            const files = await fetchFilesByRecord(getRecordId(item));
             if (files && files.length > 0) {
                 setCurrentFiles(files);
             } else if (item.image) {
@@ -218,17 +220,16 @@ const HistorySpareTransaction = () => {
         }
     };
 
-    const handleDeleteFile = async (item) => {
+    const handleDeleteFile = async (file) => {
         if (!window.confirm("Are you sure you want to delete this file? This action cannot be undone.")) {
             return;
         }
 
         try {
-            const response = await deleteHistoryFile(item.id);
+            const response = await deleteFile(file.full_path);
             if (response && response.status === 1) {
-                // Update local state by clearing the image for this item
-                setHistoryData(prev => prev.map(h =>
-                    h.id === item.id ? { ...h, image: null } : h
+                setCurrentFiles((files) => files.filter((currentFile) =>
+                    getFileName(currentFile) !== getFileName(file)
                 ));
             } else {
                 alert(response?.detail || "Failed to delete file.");
@@ -251,7 +252,7 @@ const HistorySpareTransaction = () => {
             // store id on the input element so it's available in the change handler
             try {
                 fileInputRef.current.dataset.uploadingId = id;
-            } catch (err) {
+            } catch {
                 // ignore
             }
 
@@ -273,17 +274,19 @@ const HistorySpareTransaction = () => {
             console.warn('No file selected or uploadingId missing', { files, uploadingId, datasetId: fileInputRef.current?.dataset?.uploadingId });
             e.target.value = "";
             setUploadingId(null);
-            try { delete fileInputRef.current.dataset.uploadingId; } catch {}
+            if (fileInputRef.current) {
+                delete fileInputRef.current.dataset.uploadingId;
+            }
             return;
         }
 
         console.log('Starting upload', { uploadingId: activeUploadingId, files: files.map(f => f.name) });
 
-        const formData = new FormData();
-        files.forEach(file => formData.append("attachments[]", file));
-
         try {
-            const response = await uploadHistoryFile(activeUploadingId, formData);
+            const responses = await Promise.all(
+                files.map((file) => uploadFile(activeUploadingId, file))
+            );
+            const response = responses[responses.length - 1];
             console.log('Upload response:', response);
             if (response && response.status === 1) {
                 await fetchHistory();
@@ -296,7 +299,9 @@ const HistorySpareTransaction = () => {
         } finally {
             e.target.value = ""; // Clear input
             setUploadingId(null);
-            try { delete fileInputRef.current.dataset.uploadingId; } catch {}
+            if (fileInputRef.current) {
+                delete fileInputRef.current.dataset.uploadingId;
+            }
         }
     };
 
@@ -489,7 +494,7 @@ const HistorySpareTransaction = () => {
                                                 <td>
                                                     <div className={styles.actionCell}>
                                                         {getActionBadge(item.action)}
-                                                        {item.image ? (
+                                                        {item.image || (item.real_files && item.real_files.length > 0) ? (
                                                             <>
                                                                 <button
                                                                     className={styles.viewBtn}
@@ -498,13 +503,15 @@ const HistorySpareTransaction = () => {
                                                                 >
                                                                     <ImageIcon size={14} />
                                                                 </button>
-                                                                {/* <button
+                                                                {user?.role === "admin" && currentItem?.id === item.id && currentFiles.length > 0 && (
+                                                                    <button
                                                                     className={styles.deleteBtn}
-                                                                    onClick={() => handleDeleteFile(item)}
+                                                                    onClick={() => handleDeleteFile(currentFiles[0])}
                                                                     title="Delete file"
-                                                                >
-                                                                    <Trash2 size={14} />
-                                                                </button> */}
+                                                                    >
+                                                                        <Trash2 size={14} />
+                                                                    </button>
+                                                                )}
                                                             </>
                                                         ) : (
                                                             user?.role === 'admin' && (
@@ -593,8 +600,9 @@ const HistorySpareTransaction = () => {
                                 </div>
                             ) : currentFiles.length > 0 ? (
                                 <div className={styles.fileGallery}>
-                                    {currentFiles.map((fileName, idx) => {
-                                        const url = getFileUrl(currentItem, fileName);
+                                    {currentFiles.map((file, idx) => {
+                                        const fileName = getFileName(file);
+                                        const url = getFileUrl(currentItem, file);
                                         const isPdf = fileName.toLowerCase().endsWith('.pdf');
                                         const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
 
@@ -625,6 +633,15 @@ const HistorySpareTransaction = () => {
                                                 </div>
                                                 <div className={styles.fileInfo}>
                                                     <span className={styles.fileName} title={fileName}>{fileName}</span>
+                                                    {user?.role === "admin" && (
+                                                        <button
+                                                            className={styles.deleteBtn}
+                                                            onClick={() => handleDeleteFile(file)}
+                                                            title="Delete file"
+                                                        >
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </div>
                                         );

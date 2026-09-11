@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Activity, AlertTriangle, BarChart3, Package, ShieldCheck } from "lucide-react";
 import { getCategory, getStatus, getTransaction } from "../services/Dashboard";
-import { useAuth } from "../context/AuthContext";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import styles from "./Dashboard.module.css";
 
 const Dashboard = () => {
-    const { user } = useAuth();
     const [status, setStatus] = useState({});
     const [categories, setCategories] = useState([]);
     const [transactions, setTransactions] = useState([]);
@@ -61,19 +59,6 @@ const Dashboard = () => {
 
     return (
         <div className={styles.dashboardLayout}>
-            {/* <div className={styles.dashboardHeader}>
-                <div className={styles.headerLeft}>
-                    <div className={styles.headerIcon}>
-                        <BarChart3 size={22} />
-                    </div>
-                    <div className={styles.headerText}>
-                        <h1 className={styles.pageTitle}>System Dashboard</h1>
-                        <p className={styles.pageSubtitle}>Inventory status and transaction overview.</p>
-                    </div>
-                </div>
-                <span className={styles.pageSubtitle}>{user?.username || "User"}</span>
-            </div> */}
-
             <div className={styles.metricsGrid}>
                 {statusCards.map(({ key, label, icon: Icon, className }) => (
                     <div className={`${styles.metricCard} ${className}`} key={key}>

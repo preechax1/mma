@@ -46,7 +46,7 @@
         Create
     =============================== */
     
-    function create_spare(){ global $dbh; global$base_dir;
+    function create_spare(){ global $dbh;
 
         $data = requestData();
 
@@ -69,18 +69,6 @@
         $stmt->bindParam(':for_product',    $data['for_product'],   PDO::PARAM_STR);
         $stmt->execute();
         $id = $dbh->lastInsertId();
-
-        /* ================= upload image ================= */
-
-        if(isset($_FILES['image']) && $_FILES['image']['tmp_name'] != ''){
-            $uploadDir  = $base_dir . "/model/";
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0775, true);
-            }
-            $fileName   = "ID".$id.".jpg";
-            $targetFile = $uploadDir.$fileName;
-            move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
-        }
 
         response(200, "Spare created", [
             "id" => $id
@@ -112,7 +100,7 @@
 
     }
 
-    function receive_spare($id) { global $dbh; global$base_dir;
+    function receive_spare($id) { global $dbh;
         if (!$id) response(400, 'Missing ID');
         
         $qty = intval($_POST['ReceiveQuantity'] ?? 0);
@@ -153,30 +141,10 @@
             
             $id_insert = $dbh->lastInsertId();
             
-            $uploadedFiles = 0;
-            if (isset($_FILES['attachments']['tmp_name']) && is_array($_FILES['attachments']['tmp_name'])) {
-                $baseDir = $base_dir . "/store/ID" . $id_insert . "/";
-                if (!is_dir($baseDir)) mkdir($baseDir, 0775, true);
-
-                foreach ($_FILES['attachments']['tmp_name'] as $k => $tmp) {
-                    if ($_FILES['attachments']['error'][$k] === UPLOAD_ERR_OK && is_uploaded_file($tmp)) {
-                        
-                        $originalName = basename($_FILES['attachments']['name'][$k]);
-                        $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', $originalName);
-                        $safeFileName = time() . "_" . $k . "_" . $safeName;
-                        
-                        if (move_uploaded_file($tmp, $baseDir . $safeFileName)) {
-                            $uploadedFiles++;
-                        }
-                    }
-                }
-            }
-
             $dbh->commit();
             response(200, "Spare received successfully", [
                 "id" => $id,
-                "transaction_id" => $id_insert,
-                "uploaded_files" => $uploadedFiles
+                "transaction_id" => $id_insert
             ]);
 
         } catch (Exception $e) {
@@ -189,7 +157,7 @@
     ADMIN UPDATE
     =============================== */
 
-    function update_spare($id){  global $dbh; global$base_dir;
+    function update_spare($id){  global $dbh;
 
         if(!$id){response(400,'Missing ID');}
         $data = requestData();
@@ -222,16 +190,6 @@
             ":spare_type"       => $data['spare_type']      ?? '',
             ":id"               => $id
         ]);
-
-            /* upload image */
-        if(isset($_FILES['image']) && $_FILES['image']['tmp_name'] != ''){
-            $uploadDir = $base_dir . "/model/";
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0775, true);
-                }
-            $fileName  = "ID".$id.".jpg";
-            move_uploaded_file($_FILES['image']['tmp_name'],$uploadDir.$fileName);
-        }
 
         response(200,[
             "message"=>"Spare updated",

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import styles from "./Navbar.module.css";
 
-export default function Navbar() {
+export default function Navbar({ user, logout }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
   const isAdmin =
     user?.role?.toLowerCase() === "admin" ||
     user?.position?.toLowerCase() === "admin";

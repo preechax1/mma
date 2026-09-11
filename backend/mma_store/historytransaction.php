@@ -58,8 +58,9 @@ function historytransaction(){
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // แก้ไขจุดที่ 2: ตั้งชื่อตัวแปรให้ตรงกัน
-    $diskPath = __DIR__ . "/../web_upload/mma_store/store/";
-    $webPath = "/web_upload/mma_store/store/";
+    global $base_dir, $web_base;
+    $diskPath = rtrim($base_dir, '/\\') . "/store/";
+    $webPath = rtrim($web_base, '/\\') . "/store/";
 
     foreach ($rows as $key => $row) {
         // ดึง spare_id มาสร้างชื่อ Folder (เช่น ID27)
@@ -96,8 +97,9 @@ function upload_file($id){
         ['order_id' => $id] 
     ];
 
-    $diskPath = __DIR__ . "/../web_upload/mma_store/store/";
-    $webPath = "/web_upload/mma_store/store/";
+    global $base_dir, $web_base;
+    $diskPath = rtrim($base_dir, '/\\') . "/store/";
+    $webPath = rtrim($web_base, '/\\') . "/store/";
 
     foreach ($rows as $key => $row) {
         $folderName = "ID" . $row['order_id']; 
